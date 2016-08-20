@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/bluesuncorp/validator.v5"
-	"io"
 	"myStep/controller"
 	"net/http"
 	"os"
 	"unicode"
+	"myStep/database"
+	"myStep/model"
 )
 
 const defaultPort = "8080"
@@ -32,51 +33,32 @@ var (
 
 func main() {
 
+	// DBの自動生成
+	migrate()
+
 	router := gin.Default()
-	router.Static("/css", "./assets/dist/css")
-	router.Static("/js", "./assets/dist/js")
+	router.Static("/assets", "./assets/")
 	router.LoadHTMLGlob("templates/*")
 
 	router.GET("/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "pong")
 	})
 
-	/* U01_初期表示画面表示処理 */
-	router.GET("/", controller.Users.U01G01)
+	/* B01_ログイン画面処理 */
+	router.GET("/login", controller.Users.S01B01)
+	router.POST("/index", controller.Users.S01B02)
+
+	/* B02_Dashboard処理 */
+	router.GET("/", controller.Users.S02B01)
+	router.GET("/index", controller.Users.S02B01)
 
 	http.ListenAndServe(":"+port(), router)
 }
 
-func apiHandle() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-		errs := make([]string, 0, len(c.Errors))
-		for _, e := range c.Errors {
-			// 1. エラーの種類で判定
-			switch e.Err {
-			case io.EOF:
-				errs = append(errs, msgInvalidJSON)
-			default:
-				// 2. エラーの型で判定
-				switch e.Err.(type) {
-				case *json.SyntaxError:
-					errs = append(errs, msgInvalidJSON)
-				case *json.UnmarshalTypeError:
-					errs = append(errs, msgInvalidJSONType(e.Err.(*json.UnmarshalTypeError)))
-				case *validator.StructErrors:
-					for _, fieldErr := range e.Err.(*validator.StructErrors).Flatten() {
-						errs = append(errs, msgValidationFailed(fieldErr))
-					}
-				default:
-					errs = append(errs, e.Error())
-				}
-			}
-		}
-
-		if len(c.Errors) > 0 {
-			c.JSON(-1, gin.H{"errors": errs}) // -1 == not override the current error code
-		}
-	}
+/* DBの自動生成 */
+func migrate() {
+	db := database.GetDB()
+	db.AutoMigrate(&model.User{})
 }
 
 // https://gist.github.com/elwinar/14e1e897fdbe4d3432e1
