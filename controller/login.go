@@ -14,6 +14,11 @@ type users struct{}
 
 /* ログイン画面表示処理 */
 func (u *users) S01B01(c *gin.Context) {
+	user := model.GetSessionUser(c.Request)
+	if (model.User{}) != user {
+		model.Destroy(c)
+	}
+
 	c.HTML(http.StatusOK, "login.html", gin.H{
 		"userName"	: "",
 	})
@@ -62,5 +67,13 @@ func (u *users) S02B01(c *gin.Context) {
 		"userName"	: "",
 	})
 }
+
+/* ログアウト処理 */
+func (u *users) S02B02(c *gin.Context) {
+	c.HTML(http.StatusOK, "login.html", gin.H{
+		"userName"	: "",
+	})
+}
+
 
 

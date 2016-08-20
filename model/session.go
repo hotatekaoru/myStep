@@ -87,9 +87,9 @@ func IsLogin(c *gin.Context) User {
 	return user
 }
 
-func Destroy(req *http.Request, res http.ResponseWriter) {
-	session := GetSession(req)
+func Destroy(c *gin.Context) {
+	session := GetSession(c.Request)
 	session.Options.MaxAge = -1
-	Save(req, res)
+	Save(c.Request, c.Writer)
 }
 
