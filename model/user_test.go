@@ -2,7 +2,7 @@ package model
 
 import (
 	"testing"
-	"myStep/form"
+	"myStep/validation"
 )
 
 // 英大文字、英小文字、数字、記号
@@ -22,7 +22,7 @@ func TestAuth(t *testing.T) {
 }
 
 func testAuth1(t *testing.T) {
-	form := form.S01Form {
+	form := validation.S01Form {
 		UserName: "Taro",
 		Password: TEST_PASSWORD,
 	}

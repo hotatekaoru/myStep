@@ -3,7 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"myStep/form"
+	"myStep/validation"
 	"myStep/model"
 )
 
@@ -25,7 +25,7 @@ func (u *users) S01B01(c *gin.Context) {
 
 /* ログイン処理 */
 func (u *users) S01B02(c *gin.Context) {
-	form, err := form.ValidateUser(c)
+	form, err := validation.ValidateUser(c)
 	if err != nil {
 		c.HTML(http.StatusBadRequest, "login.html", gin.H{
 			"userName"	: c.PostForm("userName"),
