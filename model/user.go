@@ -4,7 +4,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"myStep/constant"
 	"myStep/database"
-	"myStep/validation"
+	"myStep/form"
 	"errors"
 	"time"
 )
@@ -26,7 +26,7 @@ type User struct {
 
 var db = database.GetDB()
 
-func Auth(form *validation.S01Form) (int, error) {
+func Auth(form *form.S01Form) (int, error) {
 	user := User{}
 
 	db.Debug().Where(&User{UserName: form.UserName}).Find(&user)
