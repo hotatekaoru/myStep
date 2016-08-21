@@ -67,7 +67,7 @@ func Save(req *http.Request, res http.ResponseWriter) {
 	}
 }
 
-func SaveUserByID(c *gin.Context, userID int) {
+func SaveUserID(c *gin.Context, userID int) {
 	s := GetSession(c.Request)
 	s.Values[constant.SESSION_USER_ID] = userID
 	Save(c.Request, c.Writer)

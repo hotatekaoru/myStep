@@ -48,7 +48,7 @@ func (u *users) S01B02(c *gin.Context) {
 		return
 	}
 
-	model.SaveUserByID(c, userID)
+	model.SaveUserID(c, userID)
 
 	c.HTML(http.StatusOK, "index.html", gin.H{
 		"userName"	: form.UserName,
