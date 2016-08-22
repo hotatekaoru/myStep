@@ -1,0 +1,66 @@
+{{template "header.html" .}}
+{{template "navi-bar.html" .}}
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Task Table</h1>
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<i class="fa fa-table fa-fw"></i> Tasks
+							<span style="margin-left:20px;">
+									<a href="#" class="btn-link"><i class="fa fa-edit fa-fw"></i> Register New Task </a>
+							</span>
+						</div>
+						<!-- /.panel-heading -->
+						<div class="panel-body">
+							<div class="dataTable_wrapper">
+								<table width="100%" id="taskTables" class="table table-striped table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>Type</th>
+											<th>Content</th>
+											<th>Point</th>
+											<th>update</th>
+											<th>delete</th>
+										</tr>
+									</thead>
+									<tbody>
+									{{range .form}}
+										<tr>
+											<td>{{.typeName}}</td>
+											<td>{{.contentName}}</td>
+											<td>{{.point}}</td>
+											<form method="POST" action="/task/update">
+												<td>
+													<input hidden name="taskid" value="{{.taskID}}">
+													<input type="submit" class="btn-link" value="update">
+												</td>
+											</form>
+											<form method="POST" action="/task/delete">
+												<td>
+													<input hidden name="taskid" value="{{.taskID}}">
+													<input type="submit" class="btn-link" value="delete">
+												</td>
+											</form>
+										</tr>
+									{{end}}
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<!-- /.panel-body -->
+					</div>
+					<!-- /.panel -->
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.row -->
+	<script>
+		$(function(){
+			$('#taskTables').DataTable();
+		} );
+	</script>
+{{template "footer.html" .}}
