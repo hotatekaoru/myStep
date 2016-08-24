@@ -34,6 +34,7 @@ func main() {
 
 	/* S41_タスクテーブル画面処理 */
 	router.GET("/task_table", controller.Users.S41B01)
+	router.GET("/task/register", controller.Users.S41B02)
 
 	http.ListenAndServe(":"+port(), router)
 }
