@@ -49,9 +49,7 @@ func (u *users) S01B02(c *gin.Context) {
 
 	model.SaveUserID(c, userID)
 
-	c.HTML(http.StatusOK, "index.html", gin.H{
-		"userName"	: form.UserName,
-	})
+	c.HTML(http.StatusOK, "index.html", gin.H{})
 }
 
 /* Dashboard表示処理 */
@@ -61,9 +59,7 @@ func (u *users) S02B01(c *gin.Context) {
 		return
 	}
 
-	c.HTML(http.StatusOK, "index.html", gin.H{
-		"userName"	: user.UserName,
-	})
+	c.HTML(http.StatusOK, "index.html", gin.H{})
 }
 
 /* ログアウト処理 */

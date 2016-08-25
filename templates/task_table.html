@@ -28,18 +28,18 @@
 									<tbody>
 									{{range .form}}
 										<tr>
-											<td>{{.typeName}}</td>
-											<td>{{.contentName}}</td>
-											<td>{{.point}}</td>
-											<form method="POST" action="/task/update">
+											<td>{{.TypeName}}</td>
+											<td>{{.ContentName}}</td>
+											<td>{{.PointStr}}</td>
+											<form method="PUT" action="/task/update">
 												<td>
-													<input hidden name="taskid" value="{{.taskID}}">
+													<input hidden name="taskid" value="{{.TaskId}}">
 													<input type="submit" class="btn-link" value="update">
 												</td>
 											</form>
-											<form method="POST" action="/task/delete">
+											<form method="DELETE" action="/task/delete">
 												<td>
-													<input hidden name="taskid" value="{{.taskID}}">
+													<input hidden name="taskid" value="{{.TaskId}}">
 													<input type="submit" class="btn-link" value="delete">
 												</td>
 											</form>

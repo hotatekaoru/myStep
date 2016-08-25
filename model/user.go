@@ -12,7 +12,7 @@ import (
 // Gormのデフォルトでは、IDをunit型にしているが、
 // 変換が面倒、かつ、intの最大値2147483647を超過する予定はないので、intで実装する
 type GormModel struct {
-	ID        int `gorm:"primary_key"`
+	Id        int `gorm:"primary_key"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt *time.Time `sql:"index"`
@@ -34,7 +34,7 @@ func Auth(form *validation.S01Form) (int, error) {
 
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(form.Password))
 	if err != nil { err = errors.New(constant.MSG_ENABLE_LOGIN) }
-	return user.ID, err
+	return user.Id, err
 }
 
 func PasswordHash(password string) string {
