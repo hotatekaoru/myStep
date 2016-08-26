@@ -3,9 +3,8 @@ package validation
 import (
 	"github.com/gin-gonic/gin"
 	"gopkg.in/validator.v2"
+	"net/http"
 )
-
-type users struct{}
 
 type S01Form struct {
 	UserName string `form:"userName" validate:"min=2,max=20"`
@@ -16,5 +15,15 @@ func ValidateUser(c *gin.Context) (*S01Form, error) {
 	obj := &S01Form{}
 	c.Bind(obj)
 
-	return obj, validator.Validate(obj)
+	err := validator.Validate(obj)
+
+	if err != nil {
+		c.HTML(http.StatusBadRequest, "login.html", gin.H{
+			"userName"    : c.PostForm("userName"),
+			"error"        : []error{
+				err,
+			},
+		})
+	}
+		return obj, err
 }

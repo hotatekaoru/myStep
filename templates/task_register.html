@@ -18,10 +18,10 @@
 							{{end}}
 								<div class="form-group">
 									<label for="type" class="form-label">Task's type</label>
-									<select id="type" multiple class="form-control" style="height:66px;">
-										<option name="typeName" value="1">Coding</option>
-										<option name="typeName" value="2">Training</option>
-										<option name="typeName" value="3">Housework</option>
+									<select id="type" multiple class="form-control" name="typeId" style="height:66px;">
+										<option value="1" {{if eq .form.TypeId 1}} selected {{end}}>Coding</option>
+										<option value="2" {{if eq .form.TypeId 2}} selected {{end}}>Training</option>
+										<option value="3" {{if eq .form.TypeId 3}} selected {{end}}>Housework</option>
 									</select>
 								</div>
 								<div class="form-group">
@@ -35,18 +35,22 @@
 											<input id="point" class="form-control" placeholder="1.0" name="point" type="text" value="{{.form.Point}}" style="width:60px;">
 										</li>
 										<li>
-											<p> pt / </p>
+											<label> pt / </label>
 										</li>
 										<li>
-											<select class="form-control" style="width:120px;">
-												<option name="unitName" value="1">回</option>
-												<option name="unitName" value="2">分</option>
+											<select class="form-control" name="unitId" style="width:120px;">
+												<option value="1" {{if eq .form.UnitId 1}} selected {{end}}>回</option>
+												<option value="2" {{if eq .form.UnitId 2}} selected {{end}}>分</option>
 											</select>
 										</li>
 									</ul>
 								</div>
+								<input type="hidden" name="new" value="{{.form.New}}">
+								{{if $.form.New}}
 								<input type="submit" class="btn btn-outline btn-primary" value="Register">
+								{{else}}
 								<input type="submit" class="btn btn-outline btn-primary" value="Update">
+								{{end}}
 							</form>
 						</fieldset>
 					</div>

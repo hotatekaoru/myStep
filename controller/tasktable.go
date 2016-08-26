@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"myStep/model"
+	"myStep/validation"
 )
 
 
@@ -40,6 +41,12 @@ func (u *users) S41B02(c *gin.Context) {
 func (u *users) S42P01(c *gin.Context) {
 	user := model.IsLogin(c)
 	if (model.User{}) == user {
+		return
+	}
+
+	form, err := validation.ValidateTask(c)
+	if err != nil {
+		model.ReturnS42InputErr(form, err, c)
 		return
 	}
 

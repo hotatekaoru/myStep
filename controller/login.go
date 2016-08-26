@@ -27,23 +27,11 @@ func (u *users) S01B01(c *gin.Context) {
 func (u *users) S01B02(c *gin.Context) {
 	form, err := validation.ValidateUser(c)
 	if err != nil {
-		c.HTML(http.StatusBadRequest, "login.html", gin.H{
-			"userName"	: c.PostForm("userName"),
-			"error"		: []error{
-				err,
-			},
-		})
 		return
 	}
 
-	userID, err := model.Auth(form)
+	userID, err := model.Auth(form, c)
 	if err != nil {
-		c.HTML(http.StatusBadRequest, "login.html", gin.H{
-			"userName"	: form.UserName,
-			"error"		: []error{
-				err,
-			},
-		})
 		return
 	}
 

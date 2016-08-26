@@ -1,6 +1,14 @@
 package model
 
-import "strconv"
+import (
+	"strconv"
+	"myStep/validation"
+	"net/http"
+	"github.com/gin-gonic/gin"
+	"gopkg.in/go-playground/validator.v8"
+	"myStep/constant"
+	"errors"
+)
 
 type Task struct {
 	GormModel
@@ -82,5 +90,23 @@ func GetS42FormRegister() *S42Form{
 	return &form
 }
 
+func ReturnS42InputErr(input *validation.S42Form, errs error,c *gin.Context) {
+	form := S42Form {
+		New: input.New,
+		TypeId: input.TypeId,
+		ContentName: input.ContentName,
+		Point: input.Point,
+		UnitId: input.UnitId,
+	}
+
+	var err []error
+	for _, v := range errs.(validator.ValidationErrors) {
+		err = append(err, errors.New(v.Field + constant.MSG_WRONG_INPUT))
+	}
+	c.HTML(http.StatusBadRequest, "task_register.html", gin.H{
+		"errorList": err,
+		"form": form,
+	})
+}
 
 

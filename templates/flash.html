@@ -3,6 +3,11 @@
 	<strong>{{.error}}</strong>
 </div>
 {{end}}
+{{range .errorList}}
+<div class="alert alert-danger">
+	<strong>{{.}}</strong>
+</div>
+{{end}}
 {{if .info}}
 <div class="alert alert-info">
 	<strong>{{.info}}</strong>

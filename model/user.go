@@ -7,6 +7,8 @@ import (
 	"myStep/validation"
 	"errors"
 	"time"
+	"net/http"
+	"github.com/gin-gonic/gin"
 )
 
 // Gormのデフォルトでは、IDをunit型にしているが、
@@ -26,15 +28,22 @@ type User struct {
 
 var db = database.GetDB()
 
-func Auth(form *validation.S01Form) (int, error) {
+func Auth(form *validation.S01Form, c *gin.Context) (int, error) {
 	user := User{}
 
 	db.Debug().Model(&User{}).Where(&User{UserName: form.UserName}).Find(&user)
 	if (User{}) == user { return 0, errors.New(constant.MSG_ENABLE_LOGIN) }
 
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(form.Password))
-	if err != nil { err = errors.New(constant.MSG_ENABLE_LOGIN) }
-	return user.Id, err
+	if err != nil {
+		c.HTML(http.StatusBadRequest, "login.html", gin.H{
+			"userName"    : form.UserName,
+			"error"        : []error{
+				errors.New(constant.MSG_ENABLE_LOGIN),
+			},
+		})
+	}
+		return user.Id, err
 }
 
 func PasswordHash(password string) string {
