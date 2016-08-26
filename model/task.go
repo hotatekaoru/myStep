@@ -20,12 +20,12 @@ type Task struct {
 	// 単位（数）
 	Par         int `gorm:"not null:numeric(2,0)"`
 	// 1:回, 2:分
-	PointUnit   int `gorm:"not null:numeric(1,0)"`
+	UnitId   int `gorm:"not null:numeric(1,0)"`
 	// true:存在, false:削除
 	// GormModelのdeleteTimeでは、削除した場合に集計からも削除される。
 	// UsedFlgは、削除時点から該当タスクの登録を行えないようにするが、
 	// 過去に遡っての集計は可能にするためのフラグ
-	UsedFlg     bool `gorm:"not null;DEFAULT:true"`
+	UsedFlg     bool `gorm:"not null;"`
 }
 
 type S41Form struct {
@@ -41,6 +41,7 @@ type S42Form struct {
 	TypeId int
 	ContentName string
 	Point float64
+	Par int
 	UnitId int
 }
 
@@ -52,6 +53,21 @@ func SelectAllTask() *[]Task{
 	task := []Task{}
 	db.Debug().Model(&Task{}).Order("type_id, content_id").Find(&task)
 	return &task
+}
+
+func CreateTask(input *validation.S42Form) {
+	task := Task{
+		TypeId:      input.TypeId,
+		ContentId:   1,
+		ContentName: input.ContentName,
+		Point:       input.Point,
+		Par:         input.Par,
+		UnitId:      input.UnitId,
+		UsedFlg:     true,
+	}
+
+	db.Debug().Create(&task)
+
 }
 
 /* form（外部出力）操作 */
@@ -85,6 +101,7 @@ func GetS42FormRegister() *S42Form{
 		TypeId: 1,
 		ContentName: "",
 		Point: 1.0,
+		Par: 1,
 		UnitId: 1,
 	}
 	return &form
@@ -96,6 +113,7 @@ func ReturnS42InputErr(input *validation.S42Form, errs error,c *gin.Context) {
 		TypeId: input.TypeId,
 		ContentName: input.ContentName,
 		Point: input.Point,
+		Par: input.Par,
 		UnitId: input.UnitId,
 	}
 

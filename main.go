@@ -35,12 +35,12 @@ func main() {
 	/* S41_タスクテーブル画面処理 */
 	router.GET("/task_table", controller.Users.S41B01)
 	router.GET("/task/register", controller.Users.S41B02)
-//	router.PUT("/task/update", controller.Users.S41U03)
-//	router.DELETE("/task/delete", controller.Users.S41D04)
+//	router.PUT("/task/update", controller.Users.S41B03)
+//	router.DELETE("/task/delete", controller.Users.S41B04)
 
 	/* S42_タスクテーブル画面処理 */
-	router.POST("/task/register", controller.Users.S42P01)
-//	router.POST("/task/update", controller.Users.S42P02)
+	router.POST("/task/register", controller.Users.S42B01)
+//	router.POST("/task/update", controller.Users.S42B02)
 	http.ListenAndServe(":"+port(), router)
 }
 

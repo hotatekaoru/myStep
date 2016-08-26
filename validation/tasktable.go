@@ -12,6 +12,7 @@ type S42Form struct {
 	TypeId      int     `form:"typeId" validate:"required,gte=1,lte=3"`
 	ContentName string  `form:"contentName" validate:"required"`
 	Point       float64 `form:"point" validate:"required,lte=10"`
+	Par         int     `form:"par" validate:"required,gte=1,lte=100"`
 	UnitId      int     `form:"unitId" validate:"required,gte=1,lte=2"`
 }
 

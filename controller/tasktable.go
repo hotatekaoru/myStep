@@ -38,7 +38,7 @@ func (u *users) S41B02(c *gin.Context) {
 }
 
 /* タスク登録処理*/
-func (u *users) S42P01(c *gin.Context) {
+func (u *users) S42B01(c *gin.Context) {
 	user := model.IsLogin(c)
 	if (model.User{}) == user {
 		return
@@ -50,5 +50,6 @@ func (u *users) S42P01(c *gin.Context) {
 		return
 	}
 
+	model.CreateTask(form)
 	u.S41B01(c)
 }
