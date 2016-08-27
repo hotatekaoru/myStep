@@ -52,3 +52,12 @@ func PasswordHash(password string) string {
 	if err != nil { panic(err) }
 	return string(hashed)
 }
+
+func ForceLogOut(c *gin.Context) {
+	c.HTML(http.StatusBadRequest, "login.html", gin.H{
+		"userName"	: "",
+		"error": []error{
+			errors.New(constant.MSG_FORCED_LOGOUT),
+		},
+	})
+}

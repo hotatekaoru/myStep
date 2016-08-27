@@ -11,11 +11,7 @@
 					<div class="panel-body">
 						{{template "flash.html" .}}
 						<fieldset>
-							{{if $.form.New}}
 							<form action="/task/register" method="POST">
-							{{else}}
-							<form action="/task/update" method="POST">
-							{{end}}
 								<div class="form-group">
 									<label for="type" class="form-label">Task's type</label>
 									<select id="type" multiple class="form-control" name="typeId" style="height:66px;">
@@ -52,7 +48,8 @@
 								{{if $.form.New}}
 								<input type="submit" class="btn btn-outline btn-primary" value="Register">
 								{{else}}
-								<input type="submit" class="btn btn-outline btn-primary" value="Update">
+								<input type="hidden" name="taskId" value="{{.form.TaskId}}">
+ 								<input type="submit" class="btn btn-outline btn-primary" value="Update">
 								{{end}}
 								<a href="/task_table" class="btn btn-outline btn-default">Back</a>
 							</form>

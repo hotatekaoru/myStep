@@ -67,15 +67,34 @@ func CreateTask(input *validation.S42Form) {
 	}
 
 	db.Debug().Create(&task)
-
 }
 
-func selectMaxContentId(typeId int) int{
+func selectMaxContentId(typeId int) int {
 	task := Task{}
-	db.Debug().Model(&Task{}).Where("type_id = ?", typeId).Order("content_id desc").Limit(1).Find(&task)
+	db.Debug().Model(&Task{}).Where("type_id = ? and used_flg = ?", typeId, true).
+		Order("content_id desc").Limit(1).Find(&task)
 	return task.ContentId
 }
 
+func SelectTaskById(id int) *Task {
+	task := Task{}
+	db.Debug().Model(&Task{}).First(&task, id)
+	return &task
+}
+
+func UpdateTask(input *validation.S42Form) {
+	task := SelectTaskById(input.TaskId)
+	if (Task{}) == *task {return}
+
+	db.Debug().Model(&task).Updates(Task{
+		TypeId:      input.TypeId,
+		ContentId:   selectMaxContentId(input.TypeId) + 1,
+		ContentName: input.ContentName,
+		Point:       input.Point,
+		Par:         input.Par,
+		UnitId:      input.UnitId,
+	})
+}
 
 /* form（外部出力）操作 */
 func ConvTaskListToS41Form(taskList *[]Task) *[]S41Form {
@@ -134,4 +153,15 @@ func ReturnS42InputErr(input *validation.S42Form, errs error,c *gin.Context) {
 	})
 }
 
-
+func GetS42FormUpdate(task *Task) *S42Form{
+	form := S42Form {
+		New: false,
+		TaskId: task.Id,
+		TypeId: task.TypeId,
+		ContentName: task.ContentName,
+		Point: task.Point,
+		Par: task.Par,
+		UnitId: task.UnitId,
+	}
+	return &form
+}

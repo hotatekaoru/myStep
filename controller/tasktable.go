@@ -5,11 +5,16 @@ import (
 	"net/http"
 	"myStep/model"
 	"myStep/validation"
+	"myStep/constant"
 )
 
+type Indexing int
+
+var msg string
 
 /* タスクテーブル画面表示処理 */
-func (u *users) S41B01(c *gin.Context, ) {
+func (u *users) S41B01(c *gin.Context) {
+
 	user := model.IsLogin(c)
 	if (model.User{}) == user {
 		return
@@ -19,11 +24,11 @@ func (u *users) S41B01(c *gin.Context, ) {
 	form := model.ConvTaskListToS41Form(taskList)
 
 	c.HTML(http.StatusOK, "task_table.html", gin.H{
-		"form"	: form,
+		"form": form,
 	})
 }
 
-/* タスク登録画面表示処理 */
+/* タスク登録画面表示処理（新規登録） */
 func (u *users) S41B02(c *gin.Context) {
 	user := model.IsLogin(c)
 	if (model.User{}) == user {
@@ -37,19 +42,54 @@ func (u *users) S41B02(c *gin.Context) {
 	})
 }
 
-/* タスク登録処理*/
+/* タスク登録画面表示処理（更新） */
+func (u *users) S41B03(c *gin.Context) {
+	user := model.IsLogin(c)
+	if (model.User{}) == user {
+		return
+	}
+
+	taskId, err := validation.ValidateTaskId(c)
+	if err != nil {
+		model.ForceLogOut(c)
+		return
+	}
+
+	task := model.SelectTaskById(taskId)
+	form := model.GetS42FormUpdate(task)
+
+	c.HTML(http.StatusOK, "task_register.html", gin.H{
+		"form": *form,
+	})
+}
+
+/* タスク登録・更新処理 */
 func (u *users) S42B01(c *gin.Context) {
 	user := model.IsLogin(c)
 	if (model.User{}) == user {
 		return
 	}
 
-	form, err := validation.ValidateTask(c)
+	input, err := validation.ValidateTask(c)
 	if err != nil {
-		model.ReturnS42InputErr(form, err, c)
+		model.ReturnS42InputErr(input, err, c)
 		return
 	}
 
-	model.CreateTask(form)
-	u.S41B01(c)
+	var msg string
+	if input.New {
+		model.CreateTask(input)
+		msg = constant.MSG_COMPLETE_TASK_REGISTER
+	} else {
+		model.UpdateTask(input)
+		msg = constant.MSG_COMPLETE_TASK_UPDATE
+	}
+
+	taskList := model.SelectAllTask()
+	form := model.ConvTaskListToS41Form(taskList)
+
+	c.HTML(http.StatusOK, "task_table.html", gin.H{
+		"form": form,
+		"info": msg,
+	})
 }
