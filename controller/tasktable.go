@@ -73,14 +73,13 @@ func (u *users) S41B04(c *gin.Context) {
 	}
 
 	model.DeleteTaskById(taskId)
-	msg = constant.MSG_COMPLETE_TASK_DELETE
 
 	taskList := model.SelectAllTask()
 	form := model.ConvTaskListToS41Form(taskList)
 
 	c.HTML(http.StatusOK, "task_table.html", gin.H{
 		"form": form,
-		"info": msg,
+		"info": constant.MSG_COMPLETE_TASK_DELETE,
 	})
 }
 
