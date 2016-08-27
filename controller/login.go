@@ -30,8 +30,9 @@ func (u *users) S01B02(c *gin.Context) {
 		return
 	}
 
-	userID, err := model.Auth(form, c)
+	userID, err := model.Auth(form)
 	if err != nil {
+		model.AuthErr(form.UserName, c)
 		return
 	}
 

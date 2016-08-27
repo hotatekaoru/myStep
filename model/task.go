@@ -58,7 +58,7 @@ func SelectAllTask() *[]Task{
 func CreateTask(input *validation.S42Form) {
 	task := Task{
 		TypeId:      input.TypeId,
-		ContentId:   1,
+		ContentId:   selectMaxContentId(input.TypeId) + 1,
 		ContentName: input.ContentName,
 		Point:       input.Point,
 		Par:         input.Par,
@@ -69,6 +69,13 @@ func CreateTask(input *validation.S42Form) {
 	db.Debug().Create(&task)
 
 }
+
+func selectMaxContentId(typeId int) int{
+	task := Task{}
+	db.Debug().Model(&Task{}).Where("type_id = ?", typeId).Order("content_id desc").Limit(1).Find(&task)
+	return task.ContentId
+}
+
 
 /* form（外部出力）操作 */
 func ConvTaskListToS41Form(taskList *[]Task) *[]S41Form {
@@ -88,8 +95,8 @@ func convOneTaskToS41(task Task) S41Form {
 
 	form.ContentName = task.ContentName
 
-	s, _ = pointUnitMap[task.Par]
-	form.PointStr = strconv.FormatFloat(task.Point, 'e', 2, 64) + "pt / " +
+	s, _ = pointUnitMap[task.UnitId]
+	form.PointStr = strconv.FormatFloat(task.Point, 'f', -2, 64) + "pt / " +
 		strconv.Itoa(task.Par) + s
 
 	return form

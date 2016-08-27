@@ -56,21 +56,21 @@ func initTestUserData() {
 		UserName:  "Taro",
 		Password:  PasswordHash(TEST_PASSWORD),
 	}
-	db.Debug().Create(&user)
+	db.Create(&user)
 	user = User{
 		UserName:  "Jiro",
 		Password:  PasswordHash(TEST_PASSWORD),
 	}
-	db.Debug().Create(&user)
+	db.Create(&user)
 }
 
 func deleteTestUserData() {
 	user := User{
 		UserName:  "Taro",
 	}
-	db.Debug().Unscoped().Model(&User{}).Where("user_name = ?", user.UserName).Delete(&User{})
+	db.Unscoped().Model(&User{}).Where("user_name = ?", user.UserName).Delete(&User{})
 	user = User{
 		UserName:  "Jiro",
 	}
-	db.Debug().Unscoped().Model(&User{}).Where("user_name = ?", user.UserName).Delete(&User{})
+	db.Unscoped().Model(&User{}).Where("user_name = ?", user.UserName).Delete(&User{})
 }

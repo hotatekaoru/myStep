@@ -28,22 +28,23 @@ type User struct {
 
 var db = database.GetDB()
 
-func Auth(form *validation.S01Form, c *gin.Context) (int, error) {
+func Auth(form *validation.S01Form) (int, error) {
 	user := User{}
 
 	db.Debug().Model(&User{}).Where(&User{UserName: form.UserName}).Find(&user)
 	if (User{}) == user { return 0, errors.New(constant.MSG_ENABLE_LOGIN) }
 
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(form.Password))
-	if err != nil {
-		c.HTML(http.StatusBadRequest, "login.html", gin.H{
-			"userName"    : form.UserName,
-			"error"        : []error{
-				errors.New(constant.MSG_ENABLE_LOGIN),
-			},
-		})
-	}
-		return user.Id, err
+	return user.Id, err
+}
+
+func AuthErr(userName string, c *gin.Context) {
+	c.HTML(http.StatusBadRequest, "login.html", gin.H{
+		"userName"    : userName,
+		"error"       : []error{
+			errors.New(constant.MSG_ENABLE_LOGIN),
+		},
+	})
 }
 
 func PasswordHash(password string) string {
