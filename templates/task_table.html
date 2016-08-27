@@ -38,12 +38,35 @@
 													<input type="submit" class="btn-link" value="update">
 												</td>
 											</form>
-											<form method="POST" action="/task/delete">
-												<td>
-													<input hidden name="taskId" value="{{.TaskId}}">
-													<input type="submit" class="btn-link" value="delete">
-												</td>
-											</form>
+											<td>
+												<input hidden name="taskId" value="{{.TaskId}}">
+												<input type="submit" data-toggle="modal" data-target="#modalDeleteTask" class="btn-link" value="delete">
+												<div class="modal fade" id="modalDeleteTask" role="dialog">
+													<div class="modal-dialog">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h4 class="modal-title">Delete Task</h4>
+															</div>
+															<div class="modal-body">
+																<p>Are you sure you want to delete the task?</p>
+															</div>
+															<div class="modal-footer">
+																<ul class="list-inline">
+																	<li>
+																		<button type="button" class="btn btn-outline btn-default" data-dismiss="modal">Close</button>
+																	</li>
+																	<li>
+																		<form method="POST" action="/task/delete">
+																			<input hidden name="taskId" value="{{.TaskId}}">
+																			<input type="submit" class="btn btn-outline btn-danger" value="Delete">
+																		</form>
+																	</li>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											</td>
 										</tr>
 									{{end}}
 									</tbody>

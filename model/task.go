@@ -22,10 +22,6 @@ type Task struct {
 	// 1:回, 2:分
 	UnitId   int `gorm:"not null:numeric(1,0)"`
 	// true:存在, false:削除
-	// GormModelのdeleteTimeでは、削除した場合に集計からも削除される。
-	// UsedFlgは、削除時点から該当タスクの登録を行えないようにするが、
-	// 過去に遡っての集計は可能にするためのフラグ
-	UsedFlg     bool `gorm:"not null;"`
 }
 
 type S41Form struct {
@@ -63,7 +59,6 @@ func CreateTask(input *validation.S42Form) {
 		Point:       input.Point,
 		Par:         input.Par,
 		UnitId:      input.UnitId,
-		UsedFlg:     true,
 	}
 
 	db.Debug().Create(&task)
@@ -71,7 +66,7 @@ func CreateTask(input *validation.S42Form) {
 
 func selectMaxContentId(typeId int) int {
 	task := Task{}
-	db.Debug().Model(&Task{}).Where("type_id = ? and used_flg = ?", typeId, true).
+	db.Debug().Model(&Task{}).Where("type_id = ?", typeId).
 		Order("content_id desc").Limit(1).Find(&task)
 	return task.ContentId
 }
@@ -94,6 +89,10 @@ func UpdateTask(input *validation.S42Form) {
 		Par:         input.Par,
 		UnitId:      input.UnitId,
 	})
+}
+
+func DeleteTaskById(id int) {
+	db.Debug().Where("id = ?", id).Delete(&Task{})
 }
 
 /* form（外部出力）操作 */

@@ -63,6 +63,31 @@ func (u *users) S41B03(c *gin.Context) {
 	})
 }
 
+/* タスク削除処理 */
+func (u *users) S41B04(c *gin.Context) {
+	user := model.IsLogin(c)
+	if (model.User{}) == user {
+		return
+	}
+
+	taskId, err := validation.ValidateTaskId(c)
+	if err != nil {
+		model.ForceLogOut(c)
+		return
+	}
+
+	model.DeleteTaskById(taskId)
+	msg = constant.MSG_COMPLETE_TASK_DELETE
+
+	taskList := model.SelectAllTask()
+	form := model.ConvTaskListToS41Form(taskList)
+
+	c.HTML(http.StatusOK, "task_table.html", gin.H{
+		"form": form,
+		"info": msg,
+	})
+}
+
 /* タスク登録・更新処理 */
 func (u *users) S42B01(c *gin.Context) {
 	user := model.IsLogin(c)

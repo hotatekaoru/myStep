@@ -36,7 +36,7 @@ func main() {
 	router.GET("/task_table", controller.Users.S41B01)
 	router.GET("/task/register", controller.Users.S41B02)
 	router.POST("/task/update", controller.Users.S41B03)
-//	router.POST("/task/delete", controller.Users.S41B04)
+	router.POST("/task/delete", controller.Users.S41B04)
 
 	/* S42_タスクテーブル画面処理 */
 	router.POST("/task/register", controller.Users.S42B01)
