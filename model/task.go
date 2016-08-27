@@ -47,7 +47,7 @@ var pointUnitMap = map[int]string{1:"回", 2:"分"}
 /* DB操作 */
 func SelectAllTask() *[]Task{
 	task := []Task{}
-	db.Debug().Model(&Task{}).Order("type_id, content_id").Find(&task)
+	db.Debug().Model(&Task{}).Order("type_id, created_at").Find(&task)
 	return &task
 }
 

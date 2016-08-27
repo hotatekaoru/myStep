@@ -8,10 +8,6 @@ import (
 	"myStep/constant"
 )
 
-type Indexing int
-
-var msg string
-
 /* タスクテーブル画面表示処理 */
 func (u *users) S41B01(c *gin.Context) {
 
