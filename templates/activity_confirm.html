@@ -1,0 +1,92 @@
+{{template "header.html" .}}
+{{template "navi-bar.html" .}}
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Activity Register <small>Input your activity.</small></h1>
+				<div class="col-lg-6 col-md-8 col-sm-10">
+					{{template "flash.html" .}}
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<i class="fa fa-edit fa-fw"></i> Input Form
+						</div>
+						<!-- /.panel-heading -->
+						<div class="panel-body">
+							<fieldset>
+								<form action="/activity/confirm" name="activity" method="POST">
+									<div class="form-group">
+										<label for="date" class="form-label">Date</label>
+										<input type="text" id="date" class="form-control" name="date" style="width:160px;"/>
+									</div>
+									<div class="form-group">
+										<label for="type" class="form-label">Task's type</label>
+										<select id="type" multiple class="form-control" name="typeId" onchange="typeSelected()" style="height:66px;width:200px;">
+											<option value="1" {{if eq .form.TypeId 1}} selected {{end}}>Coding</option>
+											<option value="2" {{if eq .form.TypeId 2}} selected {{end}}>Training</option>
+											<option value="3" {{if eq .form.TypeId 3}} selected {{end}}>Housework</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label class="form-label">Contents</label>
+										<select id="contents1" multiple class="form-control" name="typeId" style="display:none;">
+											{{range .form.CodingList}}
+											<option value="{{.ContentId}}" {{if eq .ContentId 1}} selected {{end}}>{{.ContentName}}</option>
+											{{end}}
+										</select>
+										<select id="contents2" multiple class="form-control" name="typeId" style="display:none;">
+											{{range .form.TrainingList}}
+											<option value="{{.ContentId}}" {{if eq .ContentId 1}} selected {{end}}>{{.ContentName}}</option>
+											{{end}}
+										</select>
+										<select id="contents3" multiple class="form-control" name="typeId" style="display:none;">
+											{{range .form.HouseworkList}}
+											<option value="{{.ContentId}}" {{if eq .ContentId 1}} selected {{end}}>{{.ContentName}}</option>
+											{{end}}
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="comment" class="form-label">Comment(TODO)</label>
+										<input type="text" id="comment" class="form-control" name="comment"/>
+									</div>
+									<a href="/index" class="btn btn-outline btn-default">Back</a>
+									<input type="submit" class="btn btn-outline btn-primary" value="Next">
+								</form>
+							</fieldset>
+						</div>
+						<!-- /.panel-body -->
+					</div>
+					<!-- /.panel -->
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.row -->
+		<script type="text/javascript">
+			$(function () {
+				$('#date').datetimepicker({
+					format: 'YYYY/MM/DD'
+				});
+			});
+			function typeSelected() {
+				var elementReference = document.getElementById("type");
+				var selectedIndex = elementReference.selectedIndex;
+				var value = elementReference.options[selectedIndex].value;
+
+				if(value == 1) {
+					document.getElementById('contents1').style.display = "";
+					document.getElementById('contents2').style.display = "none";
+					document.getElementById('contents3').style.display = "none";
+				} else if(value == 2) {
+					document.getElementById('contents1').style.display = "none";
+					document.getElementById('contents2').style.display = "";
+					document.getElementById('contents3').style.display = "none";
+				} else if(value == 3) {
+					document.getElementById('contents1').style.display = "none";
+					document.getElementById('contents2').style.display = "none";
+					document.getElementById('contents3').style.display = "";
+				}
+			}
+			window.onload = typeSelected;
+		</script>
+{{template "footer.html" .}}
