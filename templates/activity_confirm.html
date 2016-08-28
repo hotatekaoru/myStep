@@ -15,41 +15,43 @@
 							<fieldset>
 								<form action="/activity/confirm" name="activity" method="POST">
 									<div class="form-group">
-										<label for="date" class="form-label">Date</label>
-										<input type="text" id="date" class="form-control" name="date" style="width:160px;"/>
+										<label class="form-label">Date</label>
+										{{.form.Date "2006/01/02"}}
 									</div>
 									<div class="form-group">
-										<label for="type" class="form-label">Task's type</label>
-										<select id="type" multiple class="form-control" name="typeId" onchange="typeSelected()" style="height:66px;width:200px;">
-											<option value="1" {{if eq .form.TypeId 1}} selected {{end}}>Coding</option>
-											<option value="2" {{if eq .form.TypeId 2}} selected {{end}}>Training</option>
-											<option value="3" {{if eq .form.TypeId 3}} selected {{end}}>Housework</option>
-										</select>
+										<label class="form-label">Task's type</label>
+										{{.form.TaskName}}
 									</div>
 									<div class="form-group">
-										<label class="form-label">Contents</label>
-										<select id="contents1" multiple class="form-control" name="typeId" style="display:none;">
-											{{range .form.CodingList}}
-											<option value="{{.ContentId}}" {{if eq .ContentId 1}} selected {{end}}>{{.ContentName}}</option>
-											{{end}}
-										</select>
-										<select id="contents2" multiple class="form-control" name="typeId" style="display:none;">
-											{{range .form.TrainingList}}
-											<option value="{{.ContentId}}" {{if eq .ContentId 1}} selected {{end}}>{{.ContentName}}</option>
-											{{end}}
-										</select>
-										<select id="contents3" multiple class="form-control" name="typeId" style="display:none;">
-											{{range .form.HouseworkList}}
-											<option value="{{.ContentId}}" {{if eq .ContentId 1}} selected {{end}}>{{.ContentName}}</option>
-											{{end}}
-										</select>
+										<label class="form-label">Content</label>
+										{{.form.ContentName}}
 									</div>
+									{{if eq .form.UnitId 2}}
 									<div class="form-group">
-										<label for="comment" class="form-label">Comment(TODO)</label>
-										<input type="text" id="comment" class="form-control" name="comment"/>
+										<label for="point" class="form-label">Time</label>
+										<ul class="list-inline">
+											<li>
+												<input id="par" class="form-control" placeholder="1" name="par" type="text" value="{{.form.Par}}" onchange="parChanged()" style="width:60px;">
+											</li>
+											<li>
+												<label>分</label>
+											</li>
+										</ul>
+									</div>
+									{{end}}
+									<div class="form-group">
+										<label for="point" class="form-label">Point</label>
+										<ul class="list-inline">
+											<li>
+												<input id="point" class="form-control" placeholder="1.0" name="point" type="text" value="{{.form.Point}}" style="width:60px;">
+											</li>
+											<li>
+												<label>pt</label>
+											</li>
+										</ul>
 									</div>
 									<a href="/index" class="btn btn-outline btn-default">Back</a>
-									<input type="submit" class="btn btn-outline btn-primary" value="Next">
+									<input type="submit" class="btn btn-outline btn-primary" value="Register">
 								</form>
 							</fieldset>
 						</div>
@@ -63,30 +65,12 @@
 		</div>
 		<!-- /.row -->
 		<script type="text/javascript">
-			$(function () {
-				$('#date').datetimepicker({
-					format: 'YYYY/MM/DD'
-				});
+			{{.form.UnitId 2}}
+			function parChanged() {
+				var point = {{.form.PointParMinute}}
+				document.getElementById('point').value = point *
 			});
-			function typeSelected() {
-				var elementReference = document.getElementById("type");
-				var selectedIndex = elementReference.selectedIndex;
-				var value = elementReference.options[selectedIndex].value;
-
-				if(value == 1) {
-					document.getElementById('contents1').style.display = "";
-					document.getElementById('contents2').style.display = "none";
-					document.getElementById('contents3').style.display = "none";
-				} else if(value == 2) {
-					document.getElementById('contents1').style.display = "none";
-					document.getElementById('contents2').style.display = "";
-					document.getElementById('contents3').style.display = "none";
-				} else if(value == 3) {
-					document.getElementById('contents1').style.display = "none";
-					document.getElementById('contents2').style.display = "none";
-					document.getElementById('contents3').style.display = "";
-				}
-			}
-			window.onload = typeSelected;
+			window.onload = parChanged;
+			{{end}}
 		</script>
 {{template "footer.html" .}}

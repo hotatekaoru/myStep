@@ -32,6 +32,10 @@ func main() {
 	router.GET("/", controller.Users.S02B01)
 	router.GET("/index", controller.Users.S02B01)
 
+	/* S11_アクティビティ登録画面処理 */
+	router.GET("/activity/register", controller.Users.S11B01)
+	router.POST("/activity/confirm", controller.Users.S11B02)
+
 	/* S41_タスクテーブル画面処理 */
 	router.GET("/task_table", controller.Users.S41B01)
 	router.GET("/task/register", controller.Users.S41B02)

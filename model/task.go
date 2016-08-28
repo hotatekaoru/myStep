@@ -20,25 +20,24 @@ type Task struct {
 	// 単位（数）
 	Par         int `gorm:"not null:numeric(2,0)"`
 	// 1:回, 2:分
-	UnitId   int `gorm:"not null:numeric(1,0)"`
-	// true:存在, false:削除
+	UnitId      int `gorm:"not null:numeric(1,0)"`
 }
 
 type S41Form struct {
-	TaskId int
-	TypeName string
-	ContentName string
-	PointStr string
+	TaskId       int
+	TypeName     string
+	ContentName  string
+	PointStr     string
 }
 
 type S42Form struct {
-	New bool
-	TaskId int
-	TypeId int
-	ContentName string
-	Point float64
-	Par int
-	UnitId int
+	New          bool
+	TaskId       int
+	TypeId       int
+	ContentName  string
+	Point        float64
+	Par          int
+	UnitId       int
 }
 
 var typeMap = map[int]string{1:"Coding", 2:"Training", 3:"Housework"}
@@ -47,7 +46,7 @@ var pointUnitMap = map[int]string{1:"回", 2:"分"}
 /* DB操作 */
 func SelectAllTask() *[]Task{
 	task := []Task{}
-	db.Debug().Model(&Task{}).Order("type_id, created_at").Find(&task)
+	db.Debug().Model(&Task{}).Order("type_id, content_id").Find(&task)
 	return &task
 }
 
@@ -122,24 +121,24 @@ func convOneTaskToS41(task Task) S41Form {
 
 func GetS42FormRegister() *S42Form{
 	form := S42Form {
-		New: true,
-		TypeId: 1,
+		New:         true,
+		TypeId:      1,
 		ContentName: "",
-		Point: 1.0,
-		Par: 1,
-		UnitId: 1,
+		Point:       1.0,
+		Par:         1,
+		UnitId:      1,
 	}
 	return &form
 }
 
 func ReturnS42InputErr(input *validation.S42Form, errs error,c *gin.Context) {
 	form := S42Form {
-		New: input.New,
-		TypeId: input.TypeId,
+		New:         input.New,
+		TypeId:      input.TypeId,
 		ContentName: input.ContentName,
-		Point: input.Point,
-		Par: input.Par,
-		UnitId: input.UnitId,
+		Point:       input.Point,
+		Par:         input.Par,
+		UnitId:      input.UnitId,
 	}
 
 	var err []error
@@ -154,13 +153,13 @@ func ReturnS42InputErr(input *validation.S42Form, errs error,c *gin.Context) {
 
 func GetS42FormUpdate(task *Task) *S42Form{
 	form := S42Form {
-		New: false,
-		TaskId: task.Id,
-		TypeId: task.TypeId,
+		New:         false,
+		TaskId:      task.Id,
+		TypeId:      task.TypeId,
 		ContentName: task.ContentName,
-		Point: task.Point,
-		Par: task.Par,
-		UnitId: task.UnitId,
+		Point:       task.Point,
+		Par:         task.Par,
+		UnitId:      task.UnitId,
 	}
 	return &form
 }

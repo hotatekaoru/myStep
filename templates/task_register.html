@@ -45,13 +45,13 @@
 									</ul>
 								</div>
 								<input type="hidden" name="new" value="{{.form.New}}">
+								<a href="/task_table" class="btn btn-outline btn-default">Back</a>
 								{{if $.form.New}}
 								<input type="submit" class="btn btn-outline btn-primary" value="Register">
 								{{else}}
 								<input type="hidden" name="taskId" value="{{.form.TaskId}}">
- 								<input type="submit" class="btn btn-outline btn-primary" value="Update">
+								<input type="submit" class="btn btn-outline btn-primary" value="Update">
 								{{end}}
-								<a href="/task_table" class="btn btn-outline btn-default">Back</a>
 							</form>
 						</fieldset>
 					</div>
