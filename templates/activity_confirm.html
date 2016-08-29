@@ -16,15 +16,15 @@
 								<form action="/activity/confirm" name="activity" method="POST">
 									<div class="form-group">
 										<label class="form-label">Date</label>
-										{{.form.Date "2006/01/02"}}
+										<p>{{.form.Date.Format "2006/01/02"}}</p>
 									</div>
 									<div class="form-group">
 										<label class="form-label">Task's type</label>
-										{{.form.TaskName}}
+										<p>{{.form.TaskName}}</p>
 									</div>
 									<div class="form-group">
 										<label class="form-label">Content</label>
-										{{.form.ContentName}}
+										<p>{{.form.ContentName}}</p>
 									</div>
 									{{if eq .form.UnitId 2}}
 									<div class="form-group">
@@ -64,13 +64,13 @@
 			<!-- /.row -->
 		</div>
 		<!-- /.row -->
+		{{if eq .form.UnitId 2}}
 		<script type="text/javascript">
-			{{.form.UnitId 2}}
 			function parChanged() {
 				var point = {{.form.PointParMinute}}
-				document.getElementById('point').value = point *
+				document.getElementById('point').value = point
 			});
 			window.onload = parChanged;
-			{{end}}
 		</script>
+		{{end}}
 {{template "footer.html" .}}

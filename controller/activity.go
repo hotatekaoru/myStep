@@ -26,7 +26,7 @@ func (u *users) S11B02(c *gin.Context) {
 		return
 	}
 
-	form := model.GetS11FormRegister()
+	form := model.GetS12FormRegister()
 
 	c.HTML(http.StatusOK, "activity_confirm.html", gin.H{
 		"form": form,

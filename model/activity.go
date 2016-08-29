@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 // 一部タスクテーブルと同じ構成だが、Taskテーブルは変更を許容しているため、
 // Activity登録時点のTask情報をActivityテーブルに持つ
 type Activity struct {
@@ -35,7 +37,7 @@ type S11Form struct {
 
 type S12Form struct {
 	New              bool
-	Date             string
+	Date             time.Time
 	TaskName         string
 	ContentName      string
 	Point            float64
@@ -78,18 +80,17 @@ func setTaskToS11Form(form *S11Form, tasks *[]Task) {
 	}
 }
 
-func GetS12FormRegister() *S11Form{
+func GetS12FormRegister() *S12Form{
 
-	form := S11Form {
+	form := S12Form {
 		New:         true,
-		TypeId:      1,
+		Date:        time.Now(),
+		TaskName:    "Coding",
+		ContentName: "tidy",
 		Point:       1.0,
 		Par:         1,
 		UnitId:      1,
 	}
-	tasks := SelectAllTask()
-	setTaskToS11Form(&form, tasks)
-
 	return &form
 }
 
