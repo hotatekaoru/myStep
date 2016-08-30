@@ -28,17 +28,17 @@
 									</div>
 									<div class="form-group">
 										<label class="form-label">Content</label>
-										<select id="contents1" multiple class="form-control" name="typeId" style="display:none;">
+										<select id="content1" multiple class="form-control" style="display:none;">
 											{{range .form.CodingList}}
 											<option value="{{.ContentId}}" {{if eq .ContentId 1}} selected {{end}}>{{.ContentName}}</option>
 											{{end}}
 										</select>
-										<select id="contents2" multiple class="form-control" name="typeId" style="display:none;">
+										<select id="content2" multiple class="form-control" style="display:none;">
 											{{range .form.TrainingList}}
 											<option value="{{.ContentId}}" {{if eq .ContentId 1}} selected {{end}}>{{.ContentName}}</option>
 											{{end}}
 										</select>
-										<select id="contents3" multiple class="form-control" name="typeId" style="display:none;">
+										<select id="content3" multiple class="form-control" style="display:none;">
 											{{range .form.HouseworkList}}
 											<option value="{{.ContentId}}" {{if eq .ContentId 1}} selected {{end}}>{{.ContentName}}</option>
 											{{end}}

@@ -41,7 +41,7 @@ type S12Form struct {
 	TaskName         string
 	ContentName      string
 	Point            float64
-	Par              int
+	WorkingTime      int
 	UnitId           int
 }
 
@@ -88,7 +88,7 @@ func GetS12FormRegister() *S12Form{
 		TaskName:    "Coding",
 		ContentName: "tidy",
 		Point:       1.0,
-		Par:         1,
+		WorkingTime: 1,
 		UnitId:      1,
 	}
 	return &form

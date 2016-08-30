@@ -3,15 +3,17 @@ package validation
 import (
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v8"
+	"time"
 )
 
 var validate *validator.Validate
 
-type S41Form struct {
-	TaskId int `form:"taskId" validate:"required"`
+type S11Form struct {
+	Date        time.Time `form:"date" validate:"required"`
+	TaskId      int       `form:"taskId"`
 }
 
-type S42Form struct {
+type S12Form struct {
 	New         bool    `form:"new"`
 	TaskId      int     `form:"taskId"`
 	TypeId      int     `form:"typeId" validate:"required,gte=1,lte=3"`
@@ -21,22 +23,3 @@ type S42Form struct {
 	UnitId      int     `form:"unitId" validate:"required,gte=1,lte=2"`
 }
 
-func ValidateTaskId(c *gin.Context) (int, error) {
-	config := &validator.Config{TagName: "validate"}
-	validate = validator.New(config)
-
-	obj := &S41Form{}
-	c.Bind(obj)
-
-	return obj.TaskId, validate.Struct(obj)
-}
-
-func ValidateTask(c *gin.Context) (*S42Form, error) {
-	config := &validator.Config{TagName: "validate"}
-	validate = validator.New(config)
-
-	obj := &S42Form{}
-	c.Bind(obj)
-
-	return obj, validate.Struct(obj)
-}

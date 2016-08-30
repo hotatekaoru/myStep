@@ -28,10 +28,10 @@
 									</div>
 									{{if eq .form.UnitId 2}}
 									<div class="form-group">
-										<label for="point" class="form-label">Time</label>
+										<label for="point" class="form-label">Working Time</label>
 										<ul class="list-inline">
 											<li>
-												<input id="par" class="form-control" placeholder="1" name="par" type="text" value="{{.form.Par}}" onchange="parChanged()" style="width:60px;">
+												<input id="workingTime" class="form-control" placeholder="1" name="workingTime" type="text" value="{{.form.WorkingTime}}" onchange="timeChanged()" style="width:60px;">
 											</li>
 											<li>
 												<label>分</label>
@@ -66,11 +66,12 @@
 		<!-- /.row -->
 		{{if eq .form.UnitId 2}}
 		<script type="text/javascript">
-			function parChanged() {
+			function timeChanged() {
+				var time = document.getElementById('workingTime').value
 				var point = {{.form.PointParMinute}}
-				document.getElementById('point').value = point
+				document.getElementById('point').value = point * time
 			});
-			window.onload = parChanged;
+			window.onload = timeChanged;
 		</script>
 		{{end}}
 {{template "footer.html" .}}
