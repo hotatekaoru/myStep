@@ -1,12 +1,8 @@
 package validation
 
 import (
-	"github.com/gin-gonic/gin"
-	"gopkg.in/go-playground/validator.v8"
 	"time"
 )
-
-var validate *validator.Validate
 
 type S11Form struct {
 	Date        time.Time `form:"date" validate:"required"`
