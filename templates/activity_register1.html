@@ -15,8 +15,19 @@
 							<fieldset>
 								<form action="/activity/confirm" name="activity" method="POST">
 									<div class="form-group">
+										<label class="form-label">User</label>
+										<label class="radio-inline">
+											<input type="radio" name="userId" value="1" {{if eq .form.UserId 1}}checked{{end}}>
+											Kaoru
+										</label>
+										<label class="radio-inline">
+											<input type="radio" name="userId" value="2" {{if eq .form.UserId 2}}checked{{end}}>
+											Yuri
+										</label>
+									</div>
+									<div class="form-group">
 										<label for="date" class="form-label">Date</label>
-										<input type="text" id="date" class="form-control" name="date" style="width:160px;"/>
+										<input type="text" id="date" class="form-control" name="date" value="{{.form.Date.Format "2006/01/02"}}" style="width:160px;"/>
 									</div>
 									<div class="form-group">
 										<label for="type" class="form-label">Task's type</label>
@@ -43,10 +54,6 @@
 											<option value="{{.ContentId}}" {{if eq .ContentId 1}} selected {{end}}>{{.ContentName}}</option>
 											{{end}}
 										</select>
-									</div>
-									<div class="form-group">
-										<label for="comment" class="form-label">Comment(TODO)</label>
-										<input type="text" id="comment" class="form-control" name="comment"/>
 									</div>
 									<a href="/index" class="btn btn-outline btn-default">Back</a>
 									<input type="submit" class="btn btn-outline btn-primary" value="Next">

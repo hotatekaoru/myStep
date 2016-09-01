@@ -15,11 +15,12 @@ func (u *users) S11B01(c *gin.Context) {
 
 	form := model.GetS11FormRegister()
 
-	c.HTML(http.StatusOK, "activity_register.html", gin.H{
+	c.HTML(http.StatusOK, "activity_register1.html", gin.H{
 		"form": form,
 	})
 }
 
+/* タスク登録画面1表示処理 */
 func (u *users) S11B02(c *gin.Context) {
 	user := model.IsLogin(c)
 	if (model.User{}) == user {
@@ -28,7 +29,7 @@ func (u *users) S11B02(c *gin.Context) {
 
 	form := model.GetS12FormRegister()
 
-	c.HTML(http.StatusOK, "activity_confirm.html", gin.H{
+	c.HTML(http.StatusOK, "activity_register2.html", gin.H{
 		"form": form,
 	})
 }

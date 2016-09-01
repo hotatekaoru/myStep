@@ -26,6 +26,8 @@ type contents struct {
 
 type S11Form struct {
 	New              bool
+	UserId           int
+	Date             time.Time
 	TypeId           int
 	Point            float64
 	Par              int
@@ -37,6 +39,7 @@ type S11Form struct {
 
 type S12Form struct {
 	New              bool
+	UserName         string
 	Date             time.Time
 	TaskName         string
 	ContentName      string
@@ -52,6 +55,8 @@ func GetS11FormRegister() *S11Form{
 
 	form := S11Form {
 		New:         true,
+		UserId:      1,
+		Date:        time.Now(),
 		TypeId:      1,
 		Point:       1.0,
 		Par:         1,
@@ -84,6 +89,7 @@ func GetS12FormRegister() *S12Form{
 
 	form := S12Form {
 		New:         true,
+		UserName:    "Kaoru",
 		Date:        time.Now(),
 		TaskName:    "Coding",
 		ContentName: "tidy",
