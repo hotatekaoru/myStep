@@ -1,6 +1,14 @@
 package model
 
-import "time"
+import (
+	"time"
+	"myStep/validation"
+	"net/http"
+	"github.com/gin-gonic/gin"
+	"gopkg.in/go-playground/validator.v8"
+	"errors"
+	"myStep/constant"
+)
 
 // 一部タスクテーブルと同じ構成だが、Taskテーブルは変更を許容しているため、
 // Activity登録時点のTask情報をActivityテーブルに持つ
@@ -29,9 +37,6 @@ type S11Form struct {
 	UserId           int
 	Date             time.Time
 	TypeId           int
-	Point            float64
-	Par              int
-	UnitId           int
 	CodingList       []contents
 	TrainingList     []contents
 	HouseworkList    []contents
@@ -58,9 +63,6 @@ func GetS11FormRegister() *S11Form{
 		UserId:      1,
 		Date:        time.Now(),
 		TypeId:      1,
-		Point:       1.0,
-		Par:         1,
-		UnitId:      1,
 	}
 	tasks := SelectAllTask()
 	setTaskToS11Form(&form, tasks)
@@ -84,6 +86,29 @@ func setTaskToS11Form(form *S11Form, tasks *[]Task) {
 		}
 	}
 }
+
+func ReturnS11InputErr(input *validation.S11Form, errs error, c *gin.Context) {
+	// TODO
+	form := S11Form {
+		New:         input.New,
+		UserId:      input.UserId,
+		Date:        time.Now(),
+//		Date:        input.Date,
+		TypeId:      input.TypeId,
+	}
+	tasks := SelectAllTask()
+	setTaskToS11Form(&form, tasks)
+
+	var err []error
+	for _, v := range errs.(validator.ValidationErrors) {
+		err = append(err, errors.New(v.Field + constant.MSG_WRONG_INPUT))
+	}
+	c.HTML(http.StatusBadRequest, "activity_register1.html", gin.H{
+		"errorList": err,
+		"form": form,
+	})
+}
+
 
 func GetS12FormRegister() *S12Form{
 
