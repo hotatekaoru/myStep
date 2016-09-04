@@ -1,21 +1,22 @@
 machine:
-	timezone: Asia/Tokyo
-	services: 
-		- postgresql
-		- redis
-	environment:
-		REDISCLOUD_URL: redis://:6379
-		DATABASE_URL: user=hotatekaoru dbname=mystepdb
+    timezone: Asia/Tokyo
+        services: 
+            - postgresql
+            - redis
+    environment:
+    	REDISCLOUD_URL: redis://:6379
+    	DATABASE_URL: user=hotatekaoru dbname=mystepdb
 
 database:
-	override:
-		- go get -t -d -v ./...
-		- createuser -s -d hotatekaoru
-		- createdb mystepdb
-		- go build -v ./...
+    override:
+        - createuser -s -d hotatekaoru
+        - createdb mystepdb
 
 dependencies:
+    override:
+        - go get -t -d -v ./...
+        - go build -v ./...
 			
 test:
-	override:
-		- go test -v ./model
+    override:
+        - go test -v ./model
