@@ -1,11 +1,17 @@
 machine:
     timezone: Asia/Tokyo
-        services:
-            - postgresql
-            - redis
+    services:
+        - postgresql
+        - redis
+    pre:
+    - >
+      curl -o go.tar.gz -sL https://storage.googleapis.com/golang/go1.7.linux-amd64.tar.gz &&
+      sudo rm -rf /usr/local/go &&
+      sudo tar -C /usr/local -xzf go.tar.gz &&
+      sudo chmod a+w /usr/local/go/src/
     environment:
-    	REDISCLOUD_URL: redis://:6379
-    	DATABASE_URL: user=hotatekaoru dbname=mystepdb
+        REDISCLOUD_URL: redis://:6379
+        DATABASE_URL: user=hotatekaoru dbname=mystepdb
 
 database:
     override:
@@ -16,7 +22,7 @@ dependencies:
     override:
         - go get -t -d -v ./...
         - go build -v ./...
-			
+
 test:
     override:
         - go test -v ./model
