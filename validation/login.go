@@ -7,8 +7,8 @@ import (
 )
 
 type S01Form struct {
-	UserName string `form:"userName" validate:"min=2,max=20"`
-	Password string `form:"password" validate:"min=4,max=20"`
+	UserName string `form:"userName" validate:"required,gte=2,lte=20"`
+	Password string `form:"password" validate:"required,gte=4,lte=20"`
 }
 
 func ValidateUser(c *gin.Context) (*S01Form, error) {
@@ -18,7 +18,7 @@ func ValidateUser(c *gin.Context) (*S01Form, error) {
 	obj := &S01Form{}
 	c.Bind(obj)
 
-	err := validator.Validate(obj)
+	err := validate.Struct(obj)
 
 	if err != nil {
 		c.HTML(http.StatusBadRequest, "login.html", gin.H{
