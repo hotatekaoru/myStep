@@ -1,0 +1,14 @@
+machine:
+	timezone: Asia/Tokyo
+	services: postgresql
+	environment: 
+		REDISCLOUD_URL: redis://:6379
+
+database:
+	override:
+		- createuser -s -d hotatekaoru
+		- createdb mystepdb
+		
+test:
+    override:
+        - go test -v ./model
