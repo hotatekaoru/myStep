@@ -34,7 +34,7 @@ func connect() *gorm.DB {
 	conn.DB().SetMaxIdleConns(max / 5)
 	conn.DB().SetMaxOpenConns(max)
 
-	return &conn
+	return conn
 }
 
 func getDatabaseUrl() string {
