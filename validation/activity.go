@@ -24,7 +24,7 @@ type S12Form struct {
 	Point       float64   `form:"point" validate:"required,lte=10"`
 	Par         int       `form:"workingTime" validate:"required,gte=1,lte=100"`
 	UnitId      int       `form:"unitId" validate:"required,gte=1,lte=2"`
-	Comment     string    `form:"comment" validate:"lte=200"`
+	Comment     string    `form:"comment" validate:"lte=300"`
 }
 
 func ValidateS11URLQuery(c *gin.Context) int {
