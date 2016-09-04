@@ -1,6 +1,6 @@
 machine:
     timezone: Asia/Tokyo
-        services: 
+        services:
             - postgresql
             - redis
     environment:
