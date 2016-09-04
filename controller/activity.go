@@ -7,7 +7,7 @@ import (
 	"myStep/validation"
 )
 
-/* タスクテーブル画面表示処理 */
+/* タスク登録画面1表示処理 */
 func (u *users) S11B01(c *gin.Context) {
 	user := model.IsLogin(c)
 	if (model.User{}) == user {
@@ -23,7 +23,7 @@ func (u *users) S11B01(c *gin.Context) {
 	})
 }
 
-/* タスク登録画面1表示処理 */
+/* タスク登録画面2表示処理 */
 func (u *users) S11B02(c *gin.Context) {
 	user := model.IsLogin(c)
 	if (model.User{}) == user {
@@ -36,11 +36,21 @@ func (u *users) S11B02(c *gin.Context) {
 		return
 	}
 
-	if validation.ValidateContentId(input) {
-		model.ForceLogOut(c)
+	form := model.GetS12FormRegister()
+
+	c.HTML(http.StatusOK, "activity_register2.html", gin.H{
+		"form": form,
+	})
+}
+
+/* タスク登録処理 */
+func (u *users) S12B01(c *gin.Context) {
+	user := model.IsLogin(c)
+	if (model.User{}) == user {
 		return
 	}
 
+	_,_ = validation.ValidateS12Form(c)
 	form := model.GetS12FormRegister()
 
 	c.HTML(http.StatusOK, "activity_register2.html", gin.H{

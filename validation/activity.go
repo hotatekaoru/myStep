@@ -2,14 +2,18 @@ package validation
 
 import (
 	"github.com/gin-gonic/gin"
-	"gopkg.in/go-playground/validator.v8"
+	"gopkg.in/go-playground/validator.v9"
 	"strconv"
+	"time"
+	"myStep/constant"
 )
+
 
 type S11Form struct {
 	New         bool      `form:"new"`
 	UserId      int       `form:"userId" validate:"required,gte=1,lte=2"`
-	//Date       string    `form:"date" validate:"required"`
+	Date        time.Time
+	InputDate   string    `form:"date" validate:"required"`
 	TypeId      int       `form:"typeId" validate:"required,gte=1,lte=3"`
 	ContentId   int
 	ContentId1  int       `form:"contentId1"`
@@ -22,7 +26,6 @@ type S12Form struct {
 	TaskId      int       `form:"taskId"`
 	ContentName string    `form:"contentName" validate:"required"`
 	Point       float64   `form:"point" validate:"required,lte=10"`
-	Par         int       `form:"workingTime" validate:"required,gte=1,lte=100"`
 	UnitId      int       `form:"unitId" validate:"required,gte=1,lte=2"`
 	Comment     string    `form:"comment" validate:"lte=300"`
 }
@@ -40,9 +43,25 @@ func ValidateS11URLQuery(c *gin.Context) int {
 	return 1
 }
 
+func S11FormValidation(sl validator.StructLevel) {
+
+	form := sl.Current().Interface().(S11Form)
+	if !validateContentId(&form) {
+		sl.ReportError(form, "Content", "content", "", "")
+		return
+	}
+
+	time, ok := time.Parse(constant.DATE_FORMAT_YYYYMMDD, form.InputDate)
+	if ok != nil {
+		sl.ReportError(form, "Date", "date", form.InputDate, "")
+		return
+	}
+	form.Date = time
+}
+
 func ValidateS11Form(c *gin.Context) (*S11Form, error) {
-	config := &validator.Config{TagName: "validate"}
-	validate = validator.New(config)
+	validate = validator.New()
+	validate.RegisterStructValidation(S11FormValidation, S11Form{})
 
 	obj := &S11Form{}
 	c.Bind(obj)
@@ -50,8 +69,7 @@ func ValidateS11Form(c *gin.Context) (*S11Form, error) {
 }
 
 func ValidateS12Form(c *gin.Context) (*S12Form, error) {
-	config := &validator.Config{TagName: "validate"}
-	validate = validator.New(config)
+	validate = validator.New()
 
 	obj := &S12Form{}
 	c.Bind(obj)
@@ -59,7 +77,7 @@ func ValidateS12Form(c *gin.Context) (*S12Form, error) {
 	return obj, validate.Struct(obj)
 }
 
-func ValidateContentId(input *S11Form) bool {
+func validateContentId(input *S11Form) bool {
 	switch input.TypeId {
 	case 1:
 		if input.ContentId1 == 0 {

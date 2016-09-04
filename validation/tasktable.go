@@ -2,7 +2,7 @@ package validation
 
 import (
 	"github.com/gin-gonic/gin"
-	"gopkg.in/go-playground/validator.v8"
+	"gopkg.in/go-playground/validator.v9"
 )
 
 var validate *validator.Validate
@@ -17,13 +17,11 @@ type S42Form struct {
 	TypeId      int     `form:"typeId" validate:"required,gte=1,lte=3"`
 	ContentName string  `form:"contentName" validate:"required"`
 	Point       float64 `form:"point" validate:"required,lte=10"`
-	Par         int     `form:"workingTime" validate:"required,gte=1,lte=100"`
 	UnitId      int     `form:"unitId" validate:"required,gte=1,lte=2"`
 }
 
 func ValidateTaskId(c *gin.Context) (int, error) {
-	config := &validator.Config{TagName: "validate"}
-	validate = validator.New(config)
+	validate = validator.New()
 
 	obj := &S41Form{}
 	c.Bind(obj)
@@ -32,8 +30,7 @@ func ValidateTaskId(c *gin.Context) (int, error) {
 }
 
 func ValidateTask(c *gin.Context) (*S42Form, error) {
-	config := &validator.Config{TagName: "validate"}
-	validate = validator.New(config)
+	validate = validator.New()
 
 	obj := &S42Form{}
 	c.Bind(obj)

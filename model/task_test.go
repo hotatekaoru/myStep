@@ -34,7 +34,6 @@ func initSetS41Form1() *Task{
 		ContentId:   1,
 		ContentName: "test",
 		Point:       1.0,
-		Par:         1,
 		UnitId:      1,
 	}
 	return &task
@@ -46,7 +45,6 @@ func initSetS41Form2() *Task{
 		ContentId:   2,
 		ContentName: "test",
 		Point:       1.23,
-		Par:         2,
 		UnitId:      2,
 	}
 	return &task
@@ -58,7 +56,6 @@ func initSetS41Form3() *Task{
 		ContentId:   3,
 		ContentName: "test",
 		Point:       0.1,
-		Par:         100,
 		UnitId:      2,
 	}
 	return &task

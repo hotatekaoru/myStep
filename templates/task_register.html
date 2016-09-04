@@ -32,12 +32,9 @@
 												<label> pt / </label>
 											</li>
 											<li>
-												<input id="par" class="form-control" placeholder="1" name="par" type="text" value="{{.form.Par}}" style="width:60px;">
-											</li>
-											<li>
 												<select class="form-control" name="unitId" style="width:120px;">
-													<option value="1" {{if eq .form.UnitId 1}} selected {{end}}>回</option>
-													<option value="2" {{if eq .form.UnitId 2}} selected {{end}}>分</option>
+													<option value="1" {{if eq .form.UnitId 1}} selected {{end}}>1回</option>
+													<option value="2" {{if eq .form.UnitId 2}} selected {{end}}>10分</option>
 												</select>
 											</li>
 										</ul>

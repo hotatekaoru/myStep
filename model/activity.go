@@ -5,7 +5,7 @@ import (
 	"myStep/validation"
 	"net/http"
 	"github.com/gin-gonic/gin"
-	"gopkg.in/go-playground/validator.v8"
+	"gopkg.in/go-playground/validator.v9"
 	"errors"
 	"myStep/constant"
 )
@@ -20,9 +20,7 @@ type Activity struct {
 	ContentId   int `gorm:"not null:numeric(3,0)"`
 	ContentName string `gorm:"not null:varchar(100)"`
 	Point       float64 `gorm:"not null:numeric(5,1)"`
-	// 単位（数）
-	Par         int `gorm:"not null:numeric(2,0)"`
-	// 1:回, 2:分
+	// 1:1回, 2:10分
 	UnitId      int `gorm:"not null:numeric(1,0)"`
 	Comment     string `gorm:"varchar(300)"`
 }
@@ -51,6 +49,7 @@ type S12Form struct {
 	Point            float64
 	WorkingTime      int
 	UnitId           int
+	PointParMinute   float64
 }
 
 /* DB操作 */
@@ -92,8 +91,7 @@ func ReturnS11InputErr(input *validation.S11Form, errs error, c *gin.Context) {
 	form := S11Form {
 		New:         input.New,
 		UserId:      input.UserId,
-		Date:        time.Now(),
-//		Date:        input.Date,
+		Date:        input.Date,
 		TypeId:      input.TypeId,
 	}
 	tasks := SelectAllTask()
@@ -101,7 +99,7 @@ func ReturnS11InputErr(input *validation.S11Form, errs error, c *gin.Context) {
 
 	var err []error
 	for _, v := range errs.(validator.ValidationErrors) {
-		err = append(err, errors.New(v.Field + constant.MSG_WRONG_INPUT))
+		err = append(err, errors.New(v.Field() + constant.MSG_WRONG_INPUT))
 	}
 	c.HTML(http.StatusBadRequest, "activity_register1.html", gin.H{
 		"errorList": err,
@@ -113,14 +111,15 @@ func ReturnS11InputErr(input *validation.S11Form, errs error, c *gin.Context) {
 func GetS12FormRegister() *S12Form{
 
 	form := S12Form {
-		New:         true,
-		UserName:    "Kaoru",
-		Date:        time.Now(),
-		TaskName:    "Coding",
-		ContentName: "tidy",
-		Point:       1.0,
-		WorkingTime: 1,
-		UnitId:      1,
+		New:            true,
+		UserName:       "Kaoru",
+		Date:           time.Now(),
+		TaskName:       "Coding",
+		ContentName:    "tidy",
+		Point:          1.0,
+		WorkingTime:    1,
+		UnitId:         2,
+		PointParMinute: 0.1,
 	}
 	return &form
 }

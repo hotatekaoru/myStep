@@ -13,7 +13,7 @@
 						<!-- /.panel-heading -->
 						<div class="panel-body">
 							<fieldset>
-								<form action="/activity/confirm" name="activity" method="POST">
+								<form action="/activity/complete" name="activity" method="POST">
 									<div class="form-group">
 										<label class="form-label">Date</label>
 										<p>{{.form.Date.Format "2006/01/02"}}</p>
@@ -28,7 +28,8 @@
 									</div>
 									{{if eq .form.UnitId 2}}
 									<div class="form-group">
-										<label for="point" class="form-label">Working Time</label>
+										<label for="workingTime" class="form-label">Working Time</label>
+										<p class="help-block">入力された作業時間に応じて、Pointが入力されます。</p>
 										<ul class="list-inline">
 											<li>
 												<input id="workingTime" class="form-control" placeholder="1" name="workingTime" type="text" value="{{.form.WorkingTime}}" onchange="timeChanged()" style="width:60px;">
@@ -51,7 +52,7 @@
 										</ul>
 									</div>
 									<div class="form-group">
-										<label for="comment" class="form-label">Comment(TODO)</label>
+										<label for="comment" class="form-label">Comment</label>
 										<textarea id="comment" class="form-control" name="comment" rows="3"></textarea>
 									</div>
 									<a href="/index" class="btn btn-outline btn-default">Back</a>
@@ -72,10 +73,13 @@
 		<script type="text/javascript">
 			function timeChanged() {
 				var time = document.getElementById('workingTime').value
-				var point = {{.form.PointParMinute}}
-				document.getElementById('point').value = point * time
-			});
-			window.onload = timeChanged;
+				if (isNaN(time)) {
+					alert("Working Time is wrong. Please input numeric.")
+				} else {
+					var point = {{.form.PointParMinute}} / 10
+					document.getElementById('point').value = point * time
+				}
+			};
 		</script>
 		{{end}}
 {{template "footer.html" .}}

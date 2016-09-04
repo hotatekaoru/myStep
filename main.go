@@ -36,6 +36,7 @@ func main() {
 	router.GET("/activity/register/typeId=:typeId", controller.Users.S11B01)
 	router.GET("/activity/register", controller.Users.S11B01)
 	router.POST("/activity/confirm", controller.Users.S11B02)
+	router.POST("/activity/complete", controller.Users.S12B01)
 
 	/* S41_タスクテーブル画面処理 */
 	router.GET("/task_table", controller.Users.S41B01)

@@ -2,7 +2,7 @@ package validation
 
 import (
 	"github.com/gin-gonic/gin"
-	"gopkg.in/go-playground/validator.v8"
+	"gopkg.in/go-playground/validator.v9"
 	"net/http"
 )
 
@@ -12,8 +12,7 @@ type S01Form struct {
 }
 
 func ValidateUser(c *gin.Context) (*S01Form, error) {
-	config := &validator.Config{TagName: "validate"}
-	validate = validator.New(config)
+	validate = validator.New()
 
 	obj := &S01Form{}
 	c.Bind(obj)

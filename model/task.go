@@ -5,7 +5,7 @@ import (
 	"myStep/validation"
 	"net/http"
 	"github.com/gin-gonic/gin"
-	"gopkg.in/go-playground/validator.v8"
+	"gopkg.in/go-playground/validator.v9"
 	"myStep/constant"
 	"errors"
 )
@@ -17,9 +17,7 @@ type Task struct {
 	ContentId   int `gorm:"not null:numeric(3,0)"`
 	ContentName string `gorm:"not null:varchar(100)"`
 	Point       float64 `gorm:"not null:numeric(5,1)"`
-	// 単位（数）
-	Par         int `gorm:"not null:numeric(2,0)"`
-	// 1:回, 2:分
+	// 1:1回, 2:10分
 	UnitId      int `gorm:"not null:numeric(1,0)"`
 }
 
@@ -36,12 +34,11 @@ type S42Form struct {
 	TypeId       int
 	ContentName  string
 	Point        float64
-	Par          int
 	UnitId       int
 }
 
 var typeMap = map[int]string{1:"Coding", 2:"Training", 3:"Housework"}
-var pointUnitMap = map[int]string{1:"回", 2:"分"}
+var pointUnitMap = map[int]string{1:"1回", 2:"10分"}
 
 /* DB操作 */
 func SelectAllTask() *[]Task{
@@ -56,7 +53,6 @@ func CreateTask(input *validation.S42Form) {
 		ContentId:   selectMaxContentId(input.TypeId) + 1,
 		ContentName: input.ContentName,
 		Point:       input.Point,
-		Par:         input.Par,
 		UnitId:      input.UnitId,
 	}
 
@@ -85,7 +81,6 @@ func UpdateTask(input *validation.S42Form) {
 		ContentId:   selectMaxContentId(input.TypeId) + 1,
 		ContentName: input.ContentName,
 		Point:       input.Point,
-		Par:         input.Par,
 		UnitId:      input.UnitId,
 	})
 }
@@ -113,8 +108,7 @@ func convOneTaskToS41(task Task) S41Form {
 	form.ContentName = task.ContentName
 
 	s, _ = pointUnitMap[task.UnitId]
-	form.PointStr = strconv.FormatFloat(task.Point, 'f', -2, 64) + "pt / " +
-		strconv.Itoa(task.Par) + s
+	form.PointStr = strconv.FormatFloat(task.Point, 'f', -2, 64) + "pt / " + s
 
 	return form
 }
@@ -125,7 +119,6 @@ func GetS42FormRegister() *S42Form{
 		TypeId:      1,
 		ContentName: "",
 		Point:       1.0,
-		Par:         1,
 		UnitId:      1,
 	}
 	return &form
@@ -137,13 +130,12 @@ func ReturnS42InputErr(input *validation.S42Form, errs error,c *gin.Context) {
 		TypeId:      input.TypeId,
 		ContentName: input.ContentName,
 		Point:       input.Point,
-		Par:         input.Par,
 		UnitId:      input.UnitId,
 	}
 
 	var err []error
 	for _, v := range errs.(validator.ValidationErrors) {
-		err = append(err, errors.New(v.Field + constant.MSG_WRONG_INPUT))
+		err = append(err, errors.New(v.Field() + constant.MSG_WRONG_INPUT))
 	}
 	c.HTML(http.StatusBadRequest, "task_register.html", gin.H{
 		"errorList": err,
@@ -158,7 +150,6 @@ func GetS42FormUpdate(task *Task) *S42Form{
 		TypeId:      task.TypeId,
 		ContentName: task.ContentName,
 		Point:       task.Point,
-		Par:         task.Par,
 		UnitId:      task.UnitId,
 	}
 	return &form
