@@ -36,7 +36,6 @@ func initSetS41Form1() *Task{
 		Point:       1.0,
 		Par:         1,
 		UnitId:      1,
-		UsedFlg:     true,
 	}
 	return &task
 }
@@ -49,7 +48,6 @@ func initSetS41Form2() *Task{
 		Point:       1.23,
 		Par:         2,
 		UnitId:      2,
-		UsedFlg:     true,
 	}
 	return &task
 }
@@ -62,7 +60,6 @@ func initSetS41Form3() *Task{
 		Point:       0.1,
 		Par:         100,
 		UnitId:      2,
-		UsedFlg:     true,
 	}
 	return &task
 }

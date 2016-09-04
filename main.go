@@ -33,6 +33,7 @@ func main() {
 	router.GET("/index", controller.Users.S02B01)
 
 	/* S11_アクティビティ登録画面処理 */
+	router.GET("/activity/register/typeId=:typeId", controller.Users.S11B01)
 	router.GET("/activity/register", controller.Users.S11B01)
 	router.POST("/activity/confirm", controller.Users.S11B02)
 

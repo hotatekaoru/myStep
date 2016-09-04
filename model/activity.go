@@ -56,13 +56,13 @@ type S12Form struct {
 /* DB操作 */
 
 /* form（外部出力）操作 */
-func GetS11FormRegister() *S11Form{
+func GetS11FormRegister(typeId int) *S11Form{
 
 	form := S11Form {
 		New:         true,
 		UserId:      1,
 		Date:        time.Now(),
-		TypeId:      1,
+		TypeId:      typeId,
 	}
 	tasks := SelectAllTask()
 	setTaskToS11Form(&form, tasks)

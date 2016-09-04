@@ -3,8 +3,7 @@ package validation
 import (
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v8"
-	"errors"
-	"myStep/constant"
+	"strconv"
 )
 
 type S11Form struct {
@@ -26,6 +25,19 @@ type S12Form struct {
 	Par         int       `form:"workingTime" validate:"required,gte=1,lte=100"`
 	UnitId      int       `form:"unitId" validate:"required,gte=1,lte=2"`
 	Comment     string    `form:"comment" validate:"lte=200"`
+}
+
+func ValidateS11URLQuery(c *gin.Context) int {
+	inputTypeId := c.Param("typeId")
+	if inputTypeId == "" {
+		return 1
+	}
+
+	typeId, _ := strconv.Atoi(inputTypeId)
+	if 1 <= typeId && typeId <= 3 {
+		return typeId
+	}
+	return 1
 }
 
 func ValidateS11Form(c *gin.Context) (*S11Form, error) {

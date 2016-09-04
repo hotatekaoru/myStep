@@ -14,7 +14,9 @@ func (u *users) S11B01(c *gin.Context) {
 		return
 	}
 
-	form := model.GetS11FormRegister()
+	typeId := validation.ValidateS11URLQuery(c)
+
+	form := model.GetS11FormRegister(typeId)
 
 	c.HTML(http.StatusOK, "activity_register1.html", gin.H{
 		"form": form,
