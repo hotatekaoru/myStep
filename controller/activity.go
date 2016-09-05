@@ -5,15 +5,17 @@ import (
 	"net/http"
 	"myStep/model"
 	"myStep/validation"
+	"myStep/session"
 )
 
 /* タスク登録画面1表示処理 */
 func (u *users) S11B01(c *gin.Context) {
-	user := model.IsLogin(c)
+	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
 	}
 
+	session.DeinitActivity(c)
 	typeId := validation.ValidateS11URLQuery(c)
 
 	form := model.GetS11FormRegister(typeId)
@@ -25,7 +27,7 @@ func (u *users) S11B01(c *gin.Context) {
 
 /* タスク登録画面2表示処理 */
 func (u *users) S11B02(c *gin.Context) {
-	user := model.IsLogin(c)
+	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
 	}
@@ -36,7 +38,10 @@ func (u *users) S11B02(c *gin.Context) {
 		return
 	}
 
-	form := model.GetS12FormRegister()
+	validation.SetTaskId(input)
+	session.SaveS11Form(c, *input)
+
+	form := model.GetS12FormRegister(input)
 
 	c.HTML(http.StatusOK, "activity_register2.html", gin.H{
 		"form": form,
@@ -45,15 +50,35 @@ func (u *users) S11B02(c *gin.Context) {
 
 /* タスク登録処理 */
 func (u *users) S12B01(c *gin.Context) {
-	user := model.IsLogin(c)
+	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
 	}
 
-	_,_ = validation.ValidateS12Form(c)
-	form := model.GetS12FormRegister()
+	input, err := validation.ValidateS12Form(c)
+	s11 := session.GetSessionActivity(c.Request)
+	if err != nil {
+		model.ReturnS12InputErr(&s11, input, err, c)
+		return
+	}
 
-	c.HTML(http.StatusOK, "activity_register2.html", gin.H{
+	session.DeinitActivity(c)
+
+	c.HTML(http.StatusOK, "index.html", gin.H{
+	})
+}
+
+/* タスク登録画面1表示（戻る）処理 */
+func (u *users) S12B02(c *gin.Context) {
+	user := session.IsLogin(c)
+	if (model.User{}) == user {
+		return
+	}
+
+	s := session.GetSessionActivity(c.Request)
+	form := model.GetS11FormBySession(s)
+
+	c.HTML(http.StatusOK, "activity_register1.html", gin.H{
 		"form": form,
 	})
 }

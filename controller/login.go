@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"myStep/validation"
 	"myStep/model"
+	"myStep/session"
 )
 
 var Users users = users{}
@@ -13,9 +14,9 @@ type users struct{}
 
 /* ログイン画面表示処理 */
 func (u *users) S01B01(c *gin.Context) {
-	user := model.GetSessionUser(c.Request)
+	user := session.GetSessionUser(c.Request)
 	if (model.User{}) != user {
-		model.Destroy(c)
+		session.Destroy(c)
 	}
 
 	c.HTML(http.StatusOK, "login.html", gin.H{
@@ -36,14 +37,14 @@ func (u *users) S01B02(c *gin.Context) {
 		return
 	}
 
-	model.SaveUserID(c, userID)
+	session.SaveUserID(c, userID)
 
 	c.HTML(http.StatusOK, "index.html", gin.H{})
 }
 
 /* Dashboard表示処理 */
 func (u *users) S02B01(c *gin.Context) {
-	user := model.IsLogin(c)
+	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
 	}

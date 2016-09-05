@@ -6,7 +6,7 @@ package constant
 const SESSION_KEY = "mystepsessions"
 const SESSION_MAX_AGE = 30 * 24 * 60 * 60
 const SESSION_USER_ID = "mystepuser"
-
+const SESSION_ACTIVITY = "mystepactivity"
 /****************************
  * 形式情報
  ****************************/

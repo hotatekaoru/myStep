@@ -6,12 +6,13 @@ import (
 	"myStep/model"
 	"myStep/validation"
 	"myStep/constant"
+	"myStep/session"
 )
 
 /* タスクテーブル画面表示処理 */
 func (u *users) S41B01(c *gin.Context) {
 
-	user := model.IsLogin(c)
+	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
 	}
@@ -26,7 +27,7 @@ func (u *users) S41B01(c *gin.Context) {
 
 /* タスク登録画面表示処理（新規登録） */
 func (u *users) S41B02(c *gin.Context) {
-	user := model.IsLogin(c)
+	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
 	}
@@ -40,7 +41,7 @@ func (u *users) S41B02(c *gin.Context) {
 
 /* タスク登録画面表示処理（更新） */
 func (u *users) S41B03(c *gin.Context) {
-	user := model.IsLogin(c)
+	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
 	}
@@ -61,7 +62,7 @@ func (u *users) S41B03(c *gin.Context) {
 
 /* タスク削除処理 */
 func (u *users) S41B04(c *gin.Context) {
-	user := model.IsLogin(c)
+	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
 	}
@@ -85,7 +86,7 @@ func (u *users) S41B04(c *gin.Context) {
 
 /* タスク登録・更新処理 */
 func (u *users) S42B01(c *gin.Context) {
-	user := model.IsLogin(c)
+	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
 	}

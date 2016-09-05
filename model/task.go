@@ -13,18 +13,17 @@ import (
 type Task struct {
 	GormModel
 	// ジャンル 1:Coding, 2:Training, 3:Housework
-	TypeId      int `gorm:"not null:numeric(1,0)"`
-	ContentId   int `gorm:"not null:numeric(3,0)"`
-	ContentName string `gorm:"not null:varchar(100)"`
-	Point       float64 `gorm:"not null:numeric(5,1)"`
+	TypeId      int      `gorm:"not null"`
+	Content     string   `gorm:"not null"`
+	Point       float64  `gorm:"not null"`
 	// 1:1回, 2:10分
-	UnitId      int `gorm:"not null:numeric(1,0)"`
+	UnitId      int      `gorm:"not null"`
 }
 
 type S41Form struct {
 	TaskId       int
 	TypeName     string
-	ContentName  string
+	Content      string
 	PointStr     string
 }
 
@@ -32,7 +31,7 @@ type S42Form struct {
 	New          bool
 	TaskId       int
 	TypeId       int
-	ContentName  string
+	Content      string
 	Point        float64
 	UnitId       int
 }
@@ -43,27 +42,19 @@ var pointUnitMap = map[int]string{1:"1回", 2:"10分"}
 /* DB操作 */
 func SelectAllTask() *[]Task{
 	task := []Task{}
-	db.Debug().Model(&Task{}).Order("type_id, content_id").Find(&task)
+	db.Debug().Model(&Task{}).Order("type_id, id").Find(&task)
 	return &task
 }
 
 func CreateTask(input *validation.S42Form) {
 	task := Task{
 		TypeId:      input.TypeId,
-		ContentId:   selectMaxContentId(input.TypeId) + 1,
-		ContentName: input.ContentName,
+		Content:     input.Content,
 		Point:       input.Point,
 		UnitId:      input.UnitId,
 	}
 
 	db.Debug().Create(&task)
-}
-
-func selectMaxContentId(typeId int) int {
-	task := Task{}
-	db.Debug().Model(&Task{}).Where("type_id = ?", typeId).
-		Order("content_id desc").Limit(1).Find(&task)
-	return task.ContentId
 }
 
 func SelectTaskById(id int) *Task {
@@ -78,8 +69,7 @@ func UpdateTask(input *validation.S42Form) {
 
 	db.Debug().Model(&task).Updates(Task{
 		TypeId:      input.TypeId,
-		ContentId:   selectMaxContentId(input.TypeId) + 1,
-		ContentName: input.ContentName,
+		Content:     input.Content,
 		Point:       input.Point,
 		UnitId:      input.UnitId,
 	})
@@ -105,7 +95,7 @@ func convOneTaskToS41(task Task) S41Form {
 	s, _ := typeMap[task.TypeId]
 	form.TypeName = s
 
-	form.ContentName = task.ContentName
+	form.Content = task.Content
 
 	s, _ = pointUnitMap[task.UnitId]
 	form.PointStr = strconv.FormatFloat(task.Point, 'f', -2, 64) + "pt / " + s
@@ -117,7 +107,7 @@ func GetS42FormRegister() *S42Form{
 	form := S42Form {
 		New:         true,
 		TypeId:      1,
-		ContentName: "",
+		Content:     "",
 		Point:       1.0,
 		UnitId:      1,
 	}
@@ -128,7 +118,7 @@ func ReturnS42InputErr(input *validation.S42Form, errs error,c *gin.Context) {
 	form := S42Form {
 		New:         input.New,
 		TypeId:      input.TypeId,
-		ContentName: input.ContentName,
+		Content:     input.Content,
 		Point:       input.Point,
 		UnitId:      input.UnitId,
 	}
@@ -148,7 +138,7 @@ func GetS42FormUpdate(task *Task) *S42Form{
 		New:         false,
 		TaskId:      task.Id,
 		TypeId:      task.TypeId,
-		ContentName: task.ContentName,
+		Content:     task.Content,
 		Point:       task.Point,
 		UnitId:      task.UnitId,
 	}

@@ -27,7 +27,7 @@
 									</div>
 									<div class="form-group">
 										<label for="date" class="form-label">Date</label>
-										<input type="text" id="date" class="form-control" name="date" value="{{.form.Date.Format "2006/01/02"}}" style="width:160px;"/>
+										<input type="text" id="date" class="form-control" name="date" value="{{.form.Date}}" style="width:160px;"/>
 									</div>
 									<div class="form-group">
 										<label for="type" class="form-label">Task's type</label>
@@ -38,20 +38,21 @@
 										</select>
 									</div>
 									<div class="form-group">
+										{{$i := .form.TaskId}}
 										<label class="form-label">Content</label>
-										<select id="content1" name="contentId1" multiple class="form-control" style="display:none;">
+										<select id="content1" name="taskId1" multiple class="form-control" style="display:none;">
 											{{range .form.CodingList}}
-											<option value="{{.ContentId}}" {{if eq .ContentId 1}} selected {{end}}>{{.ContentName}}</option>
+											<option value="{{.TaskId}}" {{if eq .TaskId $i}} selected {{end}}>{{.Content}}</option>
 											{{end}}
 										</select>
-										<select id="content2" name="contentId2" multiple class="form-control" style="display:none;">
+										<select id="content2" name="taskId2" multiple class="form-control" style="display:none;">
 											{{range .form.TrainingList}}
-											<option value="{{.ContentId}}" {{if eq .ContentId 1}} selected {{end}}>{{.ContentName}}</option>
+											<option value="{{.TaskId}}" {{if eq .TaskId $i}} selected {{end}}>{{.Content}}</option>
 											{{end}}
 										</select>
-										<select id="content3" name="contentId3" multiple class="form-control" style="display:none;">
+										<select id="content3" name="taskId3" multiple class="form-control" style="display:none;">
 											{{range .form.HouseworkList}}
-											<option value="{{.ContentId}}" {{if eq .ContentId 1}} selected {{end}}>{{.ContentName}}</option>
+											<option value="{{.TaskId}}" {{if eq .TaskId $i}} selected {{end}}>{{.Content}}</option>
 											{{end}}
 										</select>
 									</div>

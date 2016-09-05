@@ -16,15 +16,15 @@
 								<form action="/activity/complete" name="activity" method="POST">
 									<div class="form-group">
 										<label class="form-label">Date</label>
-										<p>{{.form.Date.Format "2006/01/02"}}</p>
+										<p>{{.form.Date}}</p>
 									</div>
 									<div class="form-group">
 										<label class="form-label">Task's type</label>
-										<p>{{.form.TaskName}}</p>
+										<p>{{.form.TypeName}}</p>
 									</div>
 									<div class="form-group">
 										<label class="form-label">Content</label>
-										<p>{{.form.ContentName}}</p>
+										<p>{{.form.Content}}</p>
 									</div>
 									{{if eq .form.UnitId 2}}
 									<div class="form-group">
@@ -55,7 +55,7 @@
 										<label for="comment" class="form-label">Comment</label>
 										<textarea id="comment" class="form-control" name="comment" rows="3"></textarea>
 									</div>
-									<a href="/index" class="btn btn-outline btn-default">Back</a>
+									<a href="/activity/register" class="btn btn-outline btn-default">Back</a>
 									<input type="submit" class="btn btn-outline btn-primary" value="Register">
 								</form>
 							</fieldset>
@@ -72,12 +72,12 @@
 		{{if eq .form.UnitId 2}}
 		<script type="text/javascript">
 			function timeChanged() {
-				var time = document.getElementById('workingTime').value
+				var time = document.getElementById('workingTime').value;
 				if (isNaN(time)) {
-					alert("Working Time is wrong. Please input numeric.")
+					alert("Working Time is wrong. Please input numeric.");
 				} else {
-					var point = {{.form.PointParMinute}} / 10
-					document.getElementById('point').value = point * time
+					var point = {{.form.PointParMinute}} / 10;
+					document.getElementById('point').value = point * time;
 				}
 			};
 		</script>

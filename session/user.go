@@ -1,4 +1,4 @@
-package model
+package session
 
 import (
 	"encoding/gob"
@@ -11,6 +11,7 @@ import (
 	"myStep/database"
 	"myStep/constant"
 	"errors"
+	"myStep/model"
 )
 
 var (
@@ -18,7 +19,7 @@ var (
 )
 
 func init() {
-	gob.Register(User{})
+	gob.Register(model.User{})
 
 	var err error
 	max := maxAge()
@@ -49,13 +50,13 @@ func GetSession(req *http.Request) *sessions.Session {
 	return session
 }
 
-func GetSessionUser(req *http.Request) User {
+func GetSessionUser(req *http.Request) model.User {
 	userID := (GetSession(req).Values[constant.SESSION_USER_ID])
 	if userID == nil {
-		return User{}
+		return model.User{}
 	}
 
-	var user User
+	var user model.User
 	db := database.GetDB()
 	db.First(&user, userID)
 	return user
@@ -73,9 +74,9 @@ func SaveUserID(c *gin.Context, userID int) {
 	Save(c.Request, c.Writer)
 }
 
-func IsLogin(c *gin.Context) User {
+func IsLogin(c *gin.Context) model.User {
 	user := GetSessionUser(c.Request)
-	if (User{}) == user {
+	if (model.User{}) == user {
 
 		c.HTML(http.StatusBadRequest, "login.html", gin.H{
 			"userName"	: "",

@@ -14,7 +14,7 @@ import (
 // Gormのデフォルトでは、IDをunit型にしているが、
 // 変換が面倒、かつ、intの最大値2147483647を超過する予定はないので、intで実装する
 type GormModel struct {
-	Id        int `gorm:"primary_key"`
+	Id        int        `gorm:"primary_key"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt *time.Time `sql:"index"`
