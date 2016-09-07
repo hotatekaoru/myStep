@@ -3,28 +3,27 @@ package validation
 import (
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v9"
+	"myStep/constant"
 	"strconv"
 	"time"
-	"myStep/constant"
 )
 
-
 type S11Form struct {
-	New         bool      `form:"new"`
-	UserId      int       `form:"userId" validate:"required,gte=1,lte=2"`
-	Date        string    `form:"date" validate:"required"`
-	TypeId      int       `form:"typeId" validate:"required,gte=1,lte=3"`
-	TaskId      int
-	TaskId1     int       `form:"taskId1"`
-	TaskId2     int       `form:"taskId2"`
-	TaskId3     int       `form:"taskId3"`
+	New     bool   `form:"new"`
+	UserId  int    `form:"userId" validate:"required,gte=1,lte=2"`
+	Date    string `form:"date" validate:"required"`
+	TypeId  int    `form:"typeId" validate:"required,gte=1,lte=3"`
+	TaskId  int
+	TaskId1 int `form:"taskId1"`
+	TaskId2 int `form:"taskId2"`
+	TaskId3 int `form:"taskId3"`
 }
 
 type S12Form struct {
-	New         bool      `form:"new"`
-	WorkingTime int       `form:"workingTime"`
-	Point       float64   `form:"point" validate:"required,lte=10"`
-	Comment     string    `form:"comment" validate:"lte=300"`
+	New         bool    `form:"new"`
+	WorkingTime int     `form:"workingTime"`
+	Point       float64 `form:"point" validate:"required,lte=10"`
+	Comment     string  `form:"comment" validate:"lte=300"`
 }
 
 func ValidateS11URLQuery(c *gin.Context) int {
@@ -61,7 +60,7 @@ func S11FormValidation(sl validator.StructLevel) {
 }
 
 func SetTaskId(input *S11Form) {
-	switch (input.TypeId) {
+	switch input.TypeId {
 	case 1:
 		input.TaskId = input.TaskId1
 	case 2:

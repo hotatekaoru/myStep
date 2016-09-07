@@ -2,10 +2,10 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
-	"myStep/validation"
 	"myStep/model"
 	"myStep/session"
+	"myStep/validation"
+	"net/http"
 )
 
 var Users users = users{}
@@ -20,7 +20,7 @@ func (u *users) S01B01(c *gin.Context) {
 	}
 
 	c.HTML(http.StatusOK, "login.html", gin.H{
-		"userName"	: "",
+		"userName": "",
 	})
 }
 
@@ -55,9 +55,6 @@ func (u *users) S02B01(c *gin.Context) {
 /* ログアウト処理 */
 func (u *users) S02B02(c *gin.Context) {
 	c.HTML(http.StatusOK, "login.html", gin.H{
-		"userName"	: "",
+		"userName": "",
 	})
 }
-
-
-

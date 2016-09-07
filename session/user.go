@@ -2,16 +2,16 @@ package session
 
 import (
 	"encoding/gob"
+	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/sessions"
 	. "gopkg.in/boj/redistore.v1"
+	"myStep/constant"
+	"myStep/database"
+	"myStep/model"
 	"net/http"
 	"os"
 	"strconv"
-	"myStep/database"
-	"myStep/constant"
-	"errors"
-	"myStep/model"
 )
 
 var (
@@ -79,7 +79,7 @@ func IsLogin(c *gin.Context) model.User {
 	if (model.User{}) == user {
 
 		c.HTML(http.StatusBadRequest, "login.html", gin.H{
-			"userName"	: "",
+			"userName": "",
 			"error": []error{
 				errors.New(constant.MSG_ENABLE_GET_USER_DATA),
 			},
@@ -93,4 +93,3 @@ func Destroy(c *gin.Context) {
 	session.Options.MaxAge = -1
 	Save(c.Request, c.Writer)
 }
-

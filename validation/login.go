@@ -21,11 +21,11 @@ func ValidateUser(c *gin.Context) (*S01Form, error) {
 
 	if err != nil {
 		c.HTML(http.StatusBadRequest, "login.html", gin.H{
-			"userName"    : c.PostForm("userName"),
-			"error"        : []error{
+			"userName": c.PostForm("userName"),
+			"error": []error{
 				err,
 			},
 		})
 	}
-		return obj, err
+	return obj, err
 }

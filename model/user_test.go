@@ -1,8 +1,8 @@
 package model
 
 import (
-	"testing"
 	"myStep/validation"
+	"testing"
 )
 
 // 英大文字、英小文字、数字、記号
@@ -22,55 +22,61 @@ func TestAuth(t *testing.T) {
 }
 
 func testAuth1(t *testing.T) {
-	form := validation.S01Form {
+	form := validation.S01Form{
 		UserName: "Taro",
 		Password: TEST_PASSWORD,
 	}
 	_, err := Auth(&form)
 
-	if err != nil {t.Errorf("testAuth1 Error")}
+	if err != nil {
+		t.Errorf("testAuth1 Error")
+	}
 }
 
 func testAuth2(t *testing.T) {
-	form := validation.S01Form {
+	form := validation.S01Form{
 		UserName: "Taro",
 		Password: TEST_PASSWORD + "a",
 	}
 	_, err := Auth(&form)
 
-	if err == nil {t.Errorf("testAuth2 Error")}
+	if err == nil {
+		t.Errorf("testAuth2 Error")
+	}
 }
 
 func testAuth3(t *testing.T) {
-	form := validation.S01Form {
+	form := validation.S01Form{
 		UserName: "Saburo",
 		Password: TEST_PASSWORD,
 	}
 	_, err := Auth(&form)
 
-	if err == nil {t.Errorf("testAuth3 Error")}
+	if err == nil {
+		t.Errorf("testAuth3 Error")
+	}
 }
 
 func initTestUserData() {
 	user := User{
-		UserName:  "Taro",
-		Password:  PasswordHash(TEST_PASSWORD),
+		UserName: "Taro",
+		Password: PasswordHash(TEST_PASSWORD),
 	}
 	db.Create(&user)
 	user = User{
-		UserName:  "Jiro",
-		Password:  PasswordHash(TEST_PASSWORD),
+		UserName: "Jiro",
+		Password: PasswordHash(TEST_PASSWORD),
 	}
 	db.Create(&user)
 }
 
 func deleteTestUserData() {
 	user := User{
-		UserName:  "Taro",
+		UserName: "Taro",
 	}
 	db.Unscoped().Model(&User{}).Where("user_name = ?", user.UserName).Delete(&User{})
 	user = User{
-		UserName:  "Jiro",
+		UserName: "Jiro",
 	}
 	db.Unscoped().Model(&User{}).Where("user_name = ?", user.UserName).Delete(&User{})
 }

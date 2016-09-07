@@ -28,7 +28,7 @@ func testConvTaskToS41Form3(t *testing.T) {
 	assertConvert3(t, &form)
 }
 
-func initSetS41Form1() *Task{
+func initSetS41Form1() *Task {
 	task := Task{
 		TypeId:       1,
 		GormModel.Id: 1,
@@ -39,7 +39,7 @@ func initSetS41Form1() *Task{
 	return &task
 }
 
-func initSetS41Form2() *Task{
+func initSetS41Form2() *Task {
 	task := Task{
 		TypeId:       2,
 		GormModel.Id: 2,
@@ -50,7 +50,7 @@ func initSetS41Form2() *Task{
 	return &task
 }
 
-func initSetS41Form3() *Task{
+func initSetS41Form3() *Task {
 	task := Task{
 		TypeId:       3,
 		GormModel.Id: 3,
@@ -62,17 +62,31 @@ func initSetS41Form3() *Task{
 }
 
 func assertConvert1(t *testing.T, form *S41Form) {
-	if "Coding" != form.TypeName {t.Errorf("assertConvert1.TypeName Error. TypeName is " + form.TypeName)}
-	if "test" != form.Content {t.Errorf("assertConvert1.ContentName Error. TypeName is " + form.Content)}
-	if "1pt / 1回" != form.PointStr {t.Errorf("assertConvert1.PointStr Error. TypeName is " + form.PointStr)}
+	if "Coding" != form.TypeName {
+		t.Errorf("assertConvert1.TypeName Error. TypeName is " + form.TypeName)
+	}
+	if "test" != form.Content {
+		t.Errorf("assertConvert1.ContentName Error. TypeName is " + form.Content)
+	}
+	if "1pt / 1回" != form.PointStr {
+		t.Errorf("assertConvert1.PointStr Error. TypeName is " + form.PointStr)
+	}
 }
 
 func assertConvert2(t *testing.T, form *S41Form) {
-	if "Training" != form.TypeName {t.Errorf("assertConvert1.TypeName Error. TypeName is " + form.TypeName)}
-	if "1.23pt / 2分" != form.PointStr {t.Errorf("assertConvert1.PointStr Error. TypeName is " + form.PointStr)}
+	if "Training" != form.TypeName {
+		t.Errorf("assertConvert1.TypeName Error. TypeName is " + form.TypeName)
+	}
+	if "1.23pt / 2分" != form.PointStr {
+		t.Errorf("assertConvert1.PointStr Error. TypeName is " + form.PointStr)
+	}
 }
 
 func assertConvert3(t *testing.T, form *S41Form) {
-	if "Housework" != form.TypeName {t.Errorf("assertConvert1.TypeName Error. TypeName is " + form.TypeName)}
-	if "0.1pt / 100分" != form.PointStr {t.Errorf("assertConvert1.PointStr Error. TypeName is " + form.PointStr)}
+	if "Housework" != form.TypeName {
+		t.Errorf("assertConvert1.TypeName Error. TypeName is " + form.TypeName)
+	}
+	if "0.1pt / 100分" != form.PointStr {
+		t.Errorf("assertConvert1.PointStr Error. TypeName is " + form.PointStr)
+	}
 }

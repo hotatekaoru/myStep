@@ -2,10 +2,10 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"myStep/model"
-	"myStep/validation"
 	"myStep/session"
+	"myStep/validation"
+	"net/http"
 )
 
 /* タスク登録画面1表示処理 */
@@ -62,10 +62,10 @@ func (u *users) S12B01(c *gin.Context) {
 		return
 	}
 
+	model.CreateActivity(&s11, input)
 	session.DeinitActivity(c)
 
-	c.HTML(http.StatusOK, "index.html", gin.H{
-	})
+	c.HTML(http.StatusOK, "index.html", gin.H{})
 }
 
 /* タスク登録画面1表示（戻る）処理 */

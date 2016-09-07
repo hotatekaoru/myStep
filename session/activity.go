@@ -4,10 +4,10 @@ import (
 	"encoding/gob"
 	"github.com/gin-gonic/gin"
 	. "gopkg.in/boj/redistore.v1"
-	"net/http"
-	"myStep/database"
 	"myStep/constant"
+	"myStep/database"
 	"myStep/validation"
+	"net/http"
 )
 
 func init() {
@@ -40,4 +40,3 @@ func SaveS11Form(c *gin.Context, form validation.S11Form) {
 func DeinitActivity(c *gin.Context) {
 	SaveS11Form(c, validation.S11Form{})
 }
-

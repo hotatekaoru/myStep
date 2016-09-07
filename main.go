@@ -3,10 +3,10 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"myStep/controller"
-	"net/http"
-	"os"
 	"myStep/database"
 	"myStep/model"
+	"net/http"
+	"os"
 )
 
 const defaultPort = "8080"
@@ -54,6 +54,7 @@ func migrate() {
 	db := database.GetDB()
 	db.AutoMigrate(&model.User{})
 	db.AutoMigrate(&model.Task{})
+	db.AutoMigrate(&model.Activity{})
 }
 
 func port() string {

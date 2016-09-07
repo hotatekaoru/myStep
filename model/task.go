@@ -1,46 +1,46 @@
 package model
 
 import (
-	"strconv"
-	"myStep/validation"
-	"net/http"
+	"errors"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v9"
 	"myStep/constant"
-	"errors"
+	"myStep/validation"
+	"net/http"
+	"strconv"
 )
 
 type Task struct {
 	GormModel
 	// ジャンル 1:Coding, 2:Training, 3:Housework
-	TypeId      int      `gorm:"not null"`
-	Content     string   `gorm:"not null"`
-	Point       float64  `gorm:"not null"`
+	TypeId  int     `gorm:"not null"`
+	Content string  `gorm:"not null"`
+	Point   float64 `gorm:"not null"`
 	// 1:1回, 2:10分
-	UnitId      int      `gorm:"not null"`
+	UnitId int `gorm:"not null"`
 }
 
 type S41Form struct {
-	TaskId       int
-	TypeName     string
-	Content      string
-	PointStr     string
+	TaskId   int
+	TypeName string
+	Content  string
+	PointStr string
 }
 
 type S42Form struct {
-	New          bool
-	TaskId       int
-	TypeId       int
-	Content      string
-	Point        float64
-	UnitId       int
+	New     bool
+	TaskId  int
+	TypeId  int
+	Content string
+	Point   float64
+	UnitId  int
 }
 
-var typeMap = map[int]string{1:"Coding", 2:"Training", 3:"Housework"}
-var pointUnitMap = map[int]string{1:"1回", 2:"10分"}
+var typeMap = map[int]string{1: "Coding", 2: "Training", 3: "Housework"}
+var pointUnitMap = map[int]string{1: "1回", 2: "10分"}
 
 /* DB操作 */
-func SelectAllTask() *[]Task{
+func SelectAllTask() *[]Task {
 	task := []Task{}
 	db.Debug().Model(&Task{}).Order("type_id, id").Find(&task)
 	return &task
@@ -48,10 +48,10 @@ func SelectAllTask() *[]Task{
 
 func CreateTask(input *validation.S42Form) {
 	task := Task{
-		TypeId:      input.TypeId,
-		Content:     input.Content,
-		Point:       input.Point,
-		UnitId:      input.UnitId,
+		TypeId:  input.TypeId,
+		Content: input.Content,
+		Point:   input.Point,
+		UnitId:  input.UnitId,
 	}
 
 	db.Debug().Create(&task)
@@ -65,13 +65,15 @@ func SelectTaskById(id int) *Task {
 
 func UpdateTask(input *validation.S42Form) {
 	task := SelectTaskById(input.TaskId)
-	if (Task{}) == *task {return}
+	if (Task{}) == *task {
+		return
+	}
 
 	db.Debug().Model(&task).Updates(Task{
-		TypeId:      input.TypeId,
-		Content:     input.Content,
-		Point:       input.Point,
-		UnitId:      input.UnitId,
+		TypeId:  input.TypeId,
+		Content: input.Content,
+		Point:   input.Point,
+		UnitId:  input.UnitId,
 	})
 }
 
@@ -103,44 +105,44 @@ func convOneTaskToS41(task Task) S41Form {
 	return form
 }
 
-func GetS42FormRegister() *S42Form{
-	form := S42Form {
-		New:         true,
-		TypeId:      1,
-		Content:     "",
-		Point:       1.0,
-		UnitId:      1,
+func GetS42FormRegister() *S42Form {
+	form := S42Form{
+		New:     true,
+		TypeId:  1,
+		Content: "",
+		Point:   1.0,
+		UnitId:  1,
 	}
 	return &form
 }
 
-func ReturnS42InputErr(input *validation.S42Form, errs error,c *gin.Context) {
-	form := S42Form {
-		New:         input.New,
-		TypeId:      input.TypeId,
-		Content:     input.Content,
-		Point:       input.Point,
-		UnitId:      input.UnitId,
+func ReturnS42InputErr(input *validation.S42Form, errs error, c *gin.Context) {
+	form := S42Form{
+		New:     input.New,
+		TypeId:  input.TypeId,
+		Content: input.Content,
+		Point:   input.Point,
+		UnitId:  input.UnitId,
 	}
 
 	var err []error
 	for _, v := range errs.(validator.ValidationErrors) {
-		err = append(err, errors.New(v.Field() + constant.MSG_WRONG_INPUT))
+		err = append(err, errors.New(v.Field()+constant.MSG_WRONG_INPUT))
 	}
 	c.HTML(http.StatusBadRequest, "task_register.html", gin.H{
 		"errorList": err,
-		"form": form,
+		"form":      form,
 	})
 }
 
-func GetS42FormUpdate(task *Task) *S42Form{
-	form := S42Form {
-		New:         false,
-		TaskId:      task.Id,
-		TypeId:      task.TypeId,
-		Content:     task.Content,
-		Point:       task.Point,
-		UnitId:      task.UnitId,
+func GetS42FormUpdate(task *Task) *S42Form {
+	form := S42Form{
+		New:     false,
+		TaskId:  task.Id,
+		TypeId:  task.TypeId,
+		Content: task.Content,
+		Point:   task.Point,
+		UnitId:  task.UnitId,
 	}
 	return &form
 }
