@@ -50,9 +50,31 @@ type S12Form struct {
 	PointParMinute float64
 }
 
+type s21Activity struct{
+	ActivityId     int
+	UserName       string
+	Date           string
+	TypeName       string
+	Content        string
+	UnitId         int
+	WorkingTime    int
+	Point          float64
+}
+
+type S21Form struct {
+	Activity       []s21Activity
+}
+
 var userMap = map[int]string{1: "Kaoru", 2: "Yuri"}
 
 /* DB操作 */
+func selectActivity() *[]Activity{
+	activity := []Activity{}
+	db.Debug().Model(&Activity{}).Order("id").Find(&activity)
+	return &activity
+
+}
+
 func CreateActivity(s11 *validation.S11Form, s12 *validation.S12Form) {
 	date, _ := time.Parse(constant.DATE_FORMAT_YYYYMMDD, s11.Date)
 	activity := Activity{
@@ -182,4 +204,49 @@ func GetS12FormRegister(input *validation.S11Form) *S12Form {
 	}
 
 	return &form
+}
+
+func GetS21Form() *S21Form {
+	form := S21Form{}
+
+	activities := selectActivity()
+	form.Activity = convertActivitiesToS21Form(activities)
+
+	return &form
+}
+
+func convertActivitiesToS21Form(activities *[]Activity) []s21Activity {
+	var s21acts []s21Activity
+	tasks := SelectAllTask()
+	for _, activity := range *activities {
+		s21acts = append(s21acts, convertOneActivityToS21Form(&activity, tasks))
+	}
+	return s21acts
+}
+
+func convertOneActivityToS21Form(activity *Activity, tasks *[]Task) s21Activity {
+	form := s21Activity{}
+
+	form.ActivityId = activity.Id
+
+	s, _ := userMap[activity.UserId]
+	form.UserName = s
+
+	form.Date = activity.Date.Format(constant.DATE_FORMAT_YYYYMMDD)
+
+	s, _ = typeMap[activity.TypeId]
+	form.TypeName = s
+
+	form.WorkingTime = activity.WorkingTime
+
+	form.Point = activity.Point
+
+	for _, v := range *tasks {
+		if v.Id == activity.TaskId {
+			form.Content = v.Content
+			form.UnitId = v.UnitId
+		}
+	}
+
+	return form
 }

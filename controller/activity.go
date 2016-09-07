@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-/* タスク登録画面1表示処理 */
+/* アクティビティ登録画面1表示処理 */
 func (u *users) S11B01(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
@@ -25,7 +25,7 @@ func (u *users) S11B01(c *gin.Context) {
 	})
 }
 
-/* タスク登録画面2表示処理 */
+/* アクティビティ登録画面2表示処理 */
 func (u *users) S11B02(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
@@ -48,7 +48,7 @@ func (u *users) S11B02(c *gin.Context) {
 	})
 }
 
-/* タスク登録処理 */
+/* アクティビティ登録処理 */
 func (u *users) S12B01(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
@@ -68,7 +68,7 @@ func (u *users) S12B01(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", gin.H{})
 }
 
-/* タスク登録画面1表示（戻る）処理 */
+/* アクティビティ登録画面1表示（戻る）処理 */
 func (u *users) S12B02(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {

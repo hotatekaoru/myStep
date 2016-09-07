@@ -32,11 +32,16 @@ func main() {
 	router.GET("/", controller.Users.S02B01)
 	router.GET("/index", controller.Users.S02B01)
 
-	/* S11_アクティビティ登録画面処理 */
+	/* S11_アクティビティ登録画面1処理 */
 	router.GET("/activity/register/typeId=:typeId", controller.Users.S11B01)
 	router.POST("/activity/confirm", controller.Users.S11B02)
+
+	/* S12_アクティビティ登録画面2処理 */
 	router.POST("/activity/complete", controller.Users.S12B01)
 	router.GET("/activity/register", controller.Users.S12B02)
+
+	/* S21_アクティビティ一覧照会画面処理 */
+	router.GET("/activity/inquiry", controller.Users.S21B01)
 
 	/* S41_タスクテーブル画面処理 */
 	router.GET("/task_table", controller.Users.S41B01)
