@@ -50,25 +50,25 @@ type S12Form struct {
 	PointParMinute float64
 }
 
-type s21Activity struct{
-	ActivityId     int
-	UserName       string
-	Date           string
-	TypeName       string
-	Content        string
-	UnitId         int
-	WorkingTime    int
-	Point          float64
+type s21Activity struct {
+	ActivityId  int
+	UserName    string
+	Date        string
+	TypeName    string
+	Content     string
+	UnitId      int
+	WorkingTime int
+	Point       float64
 }
 
 type S21Form struct {
-	Activity       []s21Activity
+	Activity []s21Activity
 }
 
 var userMap = map[int]string{1: "Kaoru", 2: "Yuri"}
 
 /* DB操作 */
-func selectActivity() *[]Activity{
+func selectActivity() *[]Activity {
 	activity := []Activity{}
 	db.Debug().Model(&Activity{}).Order("id").Find(&activity)
 	return &activity
