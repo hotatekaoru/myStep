@@ -28,6 +28,7 @@ type task struct {
 
 type S11Form struct {
 	New           bool
+	ActivityId    int
 	UserId        int
 	Date          string
 	TypeId        int
@@ -51,10 +52,10 @@ type S12Form struct {
 }
 
 type s21Inquiry struct {
-	UserList    []bool
-	DateFrom    string
-	DateEnd     string
-	TypeList    []bool
+	UserList []bool
+	DateFrom string
+	DateEnd  string
+	TypeList []bool
 }
 
 type s21Activity struct {
@@ -69,13 +70,19 @@ type s21Activity struct {
 }
 
 type S21Form struct {
-	Inquiry s21Inquiry
+	Inquiry  s21Inquiry
 	Activity []s21Activity
 }
 
 var userMap = map[int]string{1: "Kaoru", 2: "Yuri"}
 
 /* DB操作 */
+func selectActivityById(id int) *Activity {
+	activity := Activity{}
+	db.Debug().Model(&Activity{}).Where("id = ?", id).Find(&activity)
+	return &activity
+}
+
 func selectActivity(inq *s21Inquiry) *[]Activity {
 	activity := []Activity{}
 	from, _ := time.Parse(constant.DATE_FORMAT_YYYYMMDD, inq.DateFrom)
@@ -88,7 +95,7 @@ func selectActivity(inq *s21Inquiry) *[]Activity {
 
 	db.Debug().Model(&Activity{}).
 		Where("user_id in (?) and (date BETWEEN ? AND ?) and type_id in (?)",
-		convertBoolToNumList(inq.UserList), from, end, convertBoolToNumList(inq.TypeList)).
+			convertBoolToNumList(inq.UserList), from, end, convertBoolToNumList(inq.TypeList)).
 		Order("id").Find(&activity)
 	return &activity
 }
@@ -108,12 +115,30 @@ func CreateActivity(s11 *validation.S11Form, s12 *validation.S12Form) {
 	db.Debug().Create(&activity)
 }
 
-/* form（外部出力）操作 */
-func GetS11FormRegister(typeId int) *S11Form {
+func UpdateActivity(s11 *validation.S11Form, s12 *validation.S12Form) {
+	date, _ := time.Parse(constant.DATE_FORMAT_YYYYMMDD, s11.Date)
+	activity := Activity{
+		UserId:      s11.UserId,
+		Date:        date,
+		TypeId:      s11.TypeId,
+		TaskId:      s11.TaskId,
+		Point:       s12.Point,
+		WorkingTime: s12.WorkingTime,
+		Comment:     s12.Comment,
+	}
 
+	db.Debug().Model(&Activity{}).Where("id = ?", s11.ActivityId).Update(&activity)
+}
+
+func DeleteActivityById(id int) {
+	db.Debug().Where("id = ?", id).Delete(&Activity{})
+}
+
+/* form（外部出力）操作 */
+func GetS11FormRegister(typeId, userId int) *S11Form {
 	form := S11Form{
 		New:    true,
-		UserId: 1,
+		UserId: userId,
 		Date:   time.Now().Format(constant.DATE_FORMAT_YYYYMMDD),
 		TypeId: typeId,
 	}
@@ -123,8 +148,23 @@ func GetS11FormRegister(typeId int) *S11Form {
 	return &form
 }
 
-func GetS11FormBySession(s validation.S11Form) *S11Form {
+func GetS11FormRegisterByActivityId(activityId int) *S11Form {
+	activity := selectActivityById(activityId)
+	form := S11Form{
+		New:        false,
+		ActivityId: activityId,
+		UserId:     activity.UserId,
+		Date:       activity.Date.Format(constant.DATE_FORMAT_YYYYMMDD),
+		TypeId:     activity.TypeId,
+		TaskId:     activity.TaskId,
+	}
+	tasks := SelectAllTask()
+	SetTaskToS11Form(&form, tasks)
 
+	return &form
+}
+
+func GetS11FormBySession(s validation.S11Form) *S11Form {
 	form := S11Form{
 		New:    s.New,
 		UserId: s.UserId,
@@ -245,7 +285,7 @@ func initInquiry(userId int) s21Inquiry {
 	today := time.Now()
 	lastMonth := today.AddDate(0, -1, 0)
 	inquiry := s21Inquiry{
-		UserList: returnBoolSliceOneTrue(userId - 1, 2),
+		UserList: returnBoolSliceOneTrue(userId-1, 2),
 		DateFrom: lastMonth.Format(constant.DATE_FORMAT_YYYYMMDD),
 		DateEnd:  today.Format(constant.DATE_FORMAT_YYYYMMDD),
 		TypeList: returnBoolSliceAllTrue(3),
@@ -254,13 +294,13 @@ func initInquiry(userId int) s21Inquiry {
 }
 
 func returnBoolSliceOneTrue(choice, len int) []bool {
-	slice := make([]bool,len)
+	slice := make([]bool, len)
 	slice[choice] = true
 	return slice
 }
 
 func returnBoolSliceAllTrue(len int) []bool {
-	slice := make([]bool,len)
+	slice := make([]bool, len)
 	for i := range slice {
 		slice[i] = true
 	}
@@ -303,12 +343,12 @@ func convertOneActivityToS21Form(activity *Activity, tasks *[]Task) s21Activity 
 	return form
 }
 
-func ConvertInputFormToInquiry(obj *validation.S21InputForm) *S21Form {
+func ConvertInputFormToInquiry(obj *validation.S21Form) *S21Form {
 	form := S21Form{}
 	inquiry := s21Inquiry{
 		UserList: convertNumToBoolList(obj.UserCheck, 2),
 		DateFrom: obj.DateFrom,
-		DateEnd: obj.DateEnd,
+		DateEnd:  obj.DateEnd,
 		TypeList: convertNumToBoolList(obj.TypeCheck, 3),
 	}
 	form.Inquiry = inquiry
@@ -332,7 +372,7 @@ func convertBoolToNumList(boolList []bool) []int {
 	numList := []int{}
 	for i, v := range boolList {
 		if v {
-			numList = append(numList, i + 1)
+			numList = append(numList, i+1)
 		}
 	}
 	return numList
@@ -341,7 +381,7 @@ func convertBoolToNumList(boolList []bool) []int {
 func convertNumToBoolList(numList []int, len int) []bool {
 	boolList := make([]bool, len)
 	for _, v := range numList {
-		boolList[v - 1] = true
+		boolList[v-1] = true
 	}
 	return boolList
 }

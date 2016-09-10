@@ -7,6 +7,8 @@ const MSG_COMPLETE_TASK_UPDATE = "Complete task update."
 
 const MSG_COMPLETE_TASK_DELETE = "Complete task delete."
 
+const MSG_COMPLETE_ACTIVITY_DELETE = "Complete activity delete."
+
 /* WARN */
 const MSG_ENABLE_LOGIN = "UserName or password is incorrect."
 

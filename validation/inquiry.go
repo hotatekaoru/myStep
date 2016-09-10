@@ -7,25 +7,25 @@ import (
 	"time"
 )
 
-type S21InputForm struct {
+type S21Form struct {
 	UserCheck []int  `form:"userCheck"`
 	DateFrom  string `form:"dateFrom"`
 	DateEnd   string `form:"dateEnd"`
 	TypeCheck []int  `form:"typeCheck"`
 }
 
-func ValidateS21Form(c *gin.Context) (*S21InputForm, error) {
+func ValidateS21Form(c *gin.Context) (*S21Form, error) {
 	validate = validator.New()
-	validate.RegisterStructValidation(S21FormValidation, S21InputForm{})
+	validate.RegisterStructValidation(S21FormValidation, S21Form{})
 
-	obj := &S21InputForm{}
+	obj := &S21Form{}
 	c.Bind(obj)
 
 	return obj, validate.Struct(obj)
 }
 
 func S21FormValidation(sl validator.StructLevel) {
-	form := sl.Current().Interface().(S21InputForm)
+	form := sl.Current().Interface().(S21Form)
 
 	// 日付チェック
 	if form.DateFrom != "" {

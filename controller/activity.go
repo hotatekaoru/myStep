@@ -18,7 +18,7 @@ func (u *users) S11B01(c *gin.Context) {
 	session.DeinitActivity(c)
 	typeId := validation.ValidateS11URLQuery(c)
 
-	form := model.GetS11FormRegister(typeId)
+	form := model.GetS11FormRegister(typeId, user.Id)
 
 	c.HTML(http.StatusOK, "activity_register1.html", gin.H{
 		"form": form,
@@ -62,7 +62,11 @@ func (u *users) S12B01(c *gin.Context) {
 		return
 	}
 
-	model.CreateActivity(&s11, input)
+	if s11.New {
+		model.CreateActivity(&s11, input)
+	} else {
+		model.UpdateActivity(&s11, input)
+	}
 	session.DeinitActivity(c)
 
 	c.HTML(http.StatusOK, "index.html", gin.H{})
@@ -77,6 +81,23 @@ func (u *users) S12B02(c *gin.Context) {
 
 	s := session.GetSessionActivity(c.Request)
 	form := model.GetS11FormBySession(s)
+
+	c.HTML(http.StatusOK, "activity_register1.html", gin.H{
+		"form": form,
+	})
+}
+
+/* アクティビティ登録画面1表示処理（更新） */
+func (u *users) S21B03(c *gin.Context) {
+	user := session.IsLogin(c)
+	if (model.User{}) == user {
+		return
+	}
+
+	session.DeinitActivity(c)
+	activityId := validation.ValidateS11URLQueryAcitivityId(c)
+
+	form := model.GetS11FormRegisterByActivityId(activityId)
 
 	c.HTML(http.StatusOK, "activity_register1.html", gin.H{
 		"form": form,

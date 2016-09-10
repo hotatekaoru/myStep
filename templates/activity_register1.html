@@ -58,6 +58,9 @@
 									</div>
 									<a href="/index" class="btn btn-outline btn-default">Back</a>
 									<input type="hidden" name="new" value="{{.form.New}}">
+									{{if not .form.New}}
+									<input type="hidden" name="activityId" value="{{.form.ActivityId}}">
+									{{end}}
 									<input type="submit" class="btn btn-outline btn-primary" value="Next">
 								</form>
 							</fieldset>

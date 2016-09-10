@@ -9,14 +9,15 @@ import (
 )
 
 type S11Form struct {
-	New     bool   `form:"new"`
-	UserId  int    `form:"userId" validate:"required,gte=1,lte=2"`
-	Date    string `form:"date" validate:"required"`
-	TypeId  int    `form:"typeId" validate:"required,gte=1,lte=3"`
-	TaskId  int
-	TaskId1 int `form:"taskId1"`
-	TaskId2 int `form:"taskId2"`
-	TaskId3 int `form:"taskId3"`
+	New        bool   `form:"new"`
+	ActivityId int    `form:"activityId"`
+	UserId     int    `form:"userId" validate:"required,gte=1,lte=2"`
+	Date       string `form:"date" validate:"required"`
+	TypeId     int    `form:"typeId" validate:"required,gte=1,lte=3"`
+	TaskId     int
+	TaskId1    int `form:"taskId1"`
+	TaskId2    int `form:"taskId2"`
+	TaskId3    int `form:"taskId3"`
 }
 
 type S12Form struct {
@@ -37,6 +38,12 @@ func ValidateS11URLQuery(c *gin.Context) int {
 		return typeId
 	}
 	return 1
+}
+
+func ValidateS11URLQueryAcitivityId(c *gin.Context) int {
+	inputActivityId := c.Param("activityId")
+	activityId, _ := strconv.Atoi(inputActivityId)
+	return activityId
 }
 
 func ValidateS11Form(c *gin.Context) (*S11Form, error) {

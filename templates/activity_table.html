@@ -84,11 +84,13 @@
 											<th>Content</th>
 											<th>Time</th>
 											<th>Point</th>
+											<th>Update</th>
+											<th>Delete</th>
 										</tr>
 									</thead>
 									<tbody>
 									{{range .form.Activity}}
-										<form method="POST" action="/activity/update">
+										<a method="POST" action="/activity/update">
 											<input hidden name="activityId" value="{{.ActivityId}}">
 											<tr>
 												<td>{{.UserName}}</td>
@@ -97,6 +99,36 @@
 												<td>{{.Content}}</td>
 												<td>{{if eq .UnitId 2}}{{.WorkingTime}}分{{else}}-{{end}}</td>
 												<td>{{.Point}}</td>
+												<td>
+													<a href="/activity/register/activityId={{.ActivityId}}" class="btn-link">update</a>
+												</td>
+												<td>
+													<input type="submit" data-toggle="modal" data-target="#modalDeleteTask" class="btn-link" value="delete">
+													<div class="modal fade" id="modalDeleteTask" role="dialog" aria-hidden="true">
+														<div class="modal-dialog">
+															<div class="modal-content">
+																<div class="modal-header">
+																	<h4 class="modal-title">Delete Activity</h4>
+																</div>
+																<div class="modal-body">
+																	<p>Are you sure you want to delete the activity?</p>
+																</div>
+																<div class="modal-footer">
+																	<ul class="list-inline">
+																		<li>
+																			<button type="button" class="btn btn-outline btn-default" data-dismiss="modal">Close</button>
+																		</li>
+																		<li>
+																			<a href="/activity/delete/activityId={{.ActivityId}}" class="btn btn-outline btn-danger">
+																				Delete
+																			</a>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</div>
+													</div>
+												</td>
 											</tr>
 										</form>
 									{{end}}
