@@ -42,6 +42,7 @@ func main() {
 
 	/* S21_アクティビティ一覧照会画面処理 */
 	router.GET("/activity/inquiry", controller.Users.S21B01)
+	router.POST("/activity/inquiry", controller.Users.S21B02)
 
 	/* S41_タスクテーブル画面処理 */
 	router.GET("/task_table", controller.Users.S41B01)

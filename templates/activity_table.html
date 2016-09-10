@@ -9,22 +9,59 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<i class="fa fa-search fa-fw"></i> Search
-							<span style="margin-left:20px;">
-								<a href="/activity/register/typeId=1" class="btn-link"><i class="fa fa-edit fa-fw"></i> Register New Activity </a>
-							</span>
 						</div>
 						<!-- /.panel-heading -->
 						<div class="panel-body">
 							<form method="POST" action="/activity/inquiry">
 								<div class="form-group">
-									<label>User</label>
-									<label class="checkbox-inline">
-										<input type="checkbox">Kaoru
-									</label>
-									<label class="checkbox-inline">
-										<input type="checkbox">Yuri
-									</label>
+									<div>
+										<label class="form-label">User</label>
+									</div>
+									<div>
+										<label class="checkbox-inline">
+											<input type="checkbox" name="userCheck" value="1" {{if index .form.Inquiry.UserList 0}}checked{{end}}>
+											Kaoru
+										</label>
+										<label class="checkbox-inline">
+											<input type="checkbox" name="userCheck" value="2" {{if index .form.Inquiry.UserList 1}}checked{{end}}>
+											Yuri
+										</label>
+									</div>
 								</div>
+								<div class="form-group">
+									<label>Date</label>
+									<ul class="list-inline">
+										<li>
+											<input type="text" id="dateFrom" class="form-control" name="dateFrom" value="{{.form.Inquiry.DateFrom}}" style="width:160px;"/>
+										</li>
+										<li>
+											〜
+										</li>
+										<li>
+											<input type="text" id="dateEnd" class="form-control" name="dateEnd" value="{{.form.Inquiry.DateEnd}}" style="width:160px;"/>
+										</li>
+									</ul>
+								</div>
+								<div class="form-group">
+									<div>
+										<label class="form-label">Type</label>
+									</div>
+									<div>
+										<label class="checkbox-inline">
+											<input type="checkbox" name="typeCheck" value="1" {{if index .form.Inquiry.TypeList 0}}checked{{end}}>
+											Coding
+										</label>
+										<label class="checkbox-inline">
+											<input type="checkbox" name="typeCheck" value="2" {{if index .form.Inquiry.TypeList 1}}checked{{end}}>
+											Training
+										</label>
+										<label class="checkbox-inline">
+											<input type="checkbox" name="typeCheck" value="3" {{if index .form.Inquiry.TypeList 2}}checked{{end}}>
+											HouseWork
+										</label>
+									</div>
+								</div>
+								<input type="submit" class="btn btn-outline btn-primary" value="Search">
 							</form>
 						</div>
 					</div>
@@ -81,5 +118,15 @@
 			$(function(){
 				$('#activityTable').DataTable();
 			} );
+			$(function () {
+				$('#dateFrom').datetimepicker({
+					format: 'YYYY/MM/DD'
+				});
+			});
+			$(function () {
+				$('#dateEnd').datetimepicker({
+					format: 'YYYY/MM/DD'
+				});
+			});
 		</script>
 {{template "footer.html" .}}

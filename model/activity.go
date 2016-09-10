@@ -50,6 +50,13 @@ type S12Form struct {
 	PointParMinute float64
 }
 
+type s21Inquiry struct {
+	UserList    []bool
+	DateFrom    string
+	DateEnd     string
+	TypeList    []bool
+}
+
 type s21Activity struct {
 	ActivityId  int
 	UserName    string
@@ -62,17 +69,28 @@ type s21Activity struct {
 }
 
 type S21Form struct {
+	Inquiry s21Inquiry
 	Activity []s21Activity
 }
 
 var userMap = map[int]string{1: "Kaoru", 2: "Yuri"}
 
 /* DB操作 */
-func selectActivity() *[]Activity {
+func selectActivity(inq *s21Inquiry) *[]Activity {
 	activity := []Activity{}
-	db.Debug().Model(&Activity{}).Order("id").Find(&activity)
-	return &activity
+	from, _ := time.Parse(constant.DATE_FORMAT_YYYYMMDD, inq.DateFrom)
+	var end time.Time
+	if inq.DateEnd == "" {
+		end = time.Now()
+	} else {
+		end, _ = time.Parse(constant.DATE_FORMAT_YYYYMMDD, inq.DateEnd)
+	}
 
+	db.Debug().Model(&Activity{}).
+		Where("user_id in (?) and (date BETWEEN ? AND ?) and type_id in (?)",
+		convertBoolToNumList(inq.UserList), from, end, convertBoolToNumList(inq.TypeList)).
+		Order("id").Find(&activity)
+	return &activity
 }
 
 func CreateActivity(s11 *validation.S11Form, s12 *validation.S12Form) {
@@ -206,13 +224,47 @@ func GetS12FormRegister(input *validation.S11Form) *S12Form {
 	return &form
 }
 
-func GetS21Form() *S21Form {
+func GetS21Form(userId int) *S21Form {
 	form := S21Form{}
 
-	activities := selectActivity()
+	form.Inquiry = initInquiry(userId)
+	activities := selectActivity(&form.Inquiry)
 	form.Activity = convertActivitiesToS21Form(activities)
 
 	return &form
+}
+
+func GetS21Search(form *S21Form) *S21Form {
+	activities := selectActivity(&form.Inquiry)
+	form.Activity = convertActivitiesToS21Form(activities)
+
+	return form
+}
+
+func initInquiry(userId int) s21Inquiry {
+	today := time.Now()
+	lastMonth := today.AddDate(0, -1, 0)
+	inquiry := s21Inquiry{
+		UserList: returnBoolSliceOneTrue(userId - 1, 2),
+		DateFrom: lastMonth.Format(constant.DATE_FORMAT_YYYYMMDD),
+		DateEnd:  today.Format(constant.DATE_FORMAT_YYYYMMDD),
+		TypeList: returnBoolSliceAllTrue(3),
+	}
+	return inquiry
+}
+
+func returnBoolSliceOneTrue(choice, len int) []bool {
+	slice := make([]bool,len)
+	slice[choice] = true
+	return slice
+}
+
+func returnBoolSliceAllTrue(len int) []bool {
+	slice := make([]bool,len)
+	for i := range slice {
+		slice[i] = true
+	}
+	return slice
 }
 
 func convertActivitiesToS21Form(activities *[]Activity) []s21Activity {
@@ -249,4 +301,47 @@ func convertOneActivityToS21Form(activity *Activity, tasks *[]Task) s21Activity 
 	}
 
 	return form
+}
+
+func ConvertInputFormToInquiry(obj *validation.S21InputForm) *S21Form {
+	form := S21Form{}
+	inquiry := s21Inquiry{
+		UserList: convertNumToBoolList(obj.UserCheck, 2),
+		DateFrom: obj.DateFrom,
+		DateEnd: obj.DateEnd,
+		TypeList: convertNumToBoolList(obj.TypeCheck, 3),
+	}
+	form.Inquiry = inquiry
+	return &form
+}
+
+func ReturnS21InputErr(form S21Form, errs error, c *gin.Context) {
+
+	var err []error
+	for _, v := range errs.(validator.ValidationErrors) {
+		err = append(err, errors.New(v.Field()+constant.MSG_WRONG_INPUT))
+	}
+
+	c.HTML(http.StatusBadRequest, "activity_table.html", gin.H{
+		"errorList": err,
+		"form":      form,
+	})
+}
+
+func convertBoolToNumList(boolList []bool) []int {
+	numList := []int{}
+	for i, v := range boolList {
+		if v {
+			numList = append(numList, i + 1)
+		}
+	}
+	return numList
+}
+
+func convertNumToBoolList(numList []int, len int) []bool {
+	boolList := make([]bool, len)
+	for _, v := range numList {
+		boolList[v - 1] = true
+	}
+	return boolList
 }
