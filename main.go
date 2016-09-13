@@ -46,6 +46,9 @@ func main() {
 	router.GET("/activity/register/activityId=:activityId", controller.Users.S21B03)
 	router.GET("/activity/delete/activityId=:activityId", controller.Users.S21B04)
 
+	/* S31_目標一覧画面処理 */
+	router.GET("/goal/list", controller.Users.S31B01)
+
 	/* S41_タスクテーブル画面処理 */
 	router.GET("/task_table", controller.Users.S41B01)
 	router.GET("/task/register", controller.Users.S41B02)
