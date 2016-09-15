@@ -1,0 +1,62 @@
+{{template "header.html" .}}
+{{template "navi-bar.html" .}}
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Goal Register</h1>
+				<div class="col-lg-6 col-md-8 col-sm-10">
+					<div class="panel-heading">
+						<h3 class="panel-title">Please input your goal.</h3>
+					</div>
+					<div class="panel-body">
+						{{template "flash.html" .}}
+						<fieldset>
+							<form action="/goal/register" method="POST">
+								<div class="form-group">
+									<label for="year" class="form-label">Year</label>
+									<select id="year" class="form-control" name="year" style="height:66px;">
+										{{$y := .form.Year}}
+										{{range .form.YearList}}
+										<option value="{{.}}" {{if eq $y .}} selected {{end}}>{{.}}</option>
+										{{end}}
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="month" class="form-label">Month</label>
+									<select id="month" class="form-control" name="month" style="height:66px;">
+										{{$m := .form.Month}}
+										{{range .form.MonthList}}
+										<option value="{{.}}" {{if eq $m .}} selected {{end}}>{{.}}</option>
+										{{end}}
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="coding" class="form-label">Coding</label>
+									<input id="coding" class="form-control" name="coding" type="text" value="{{.form.Coding}}">
+								</div>
+								<div class="form-group">
+									<label for="training" class="form-label">Training</label>
+									<input id="training" class="form-control" name="training" type="text" value="{{.form.Training}}">
+								</div>
+								<div class="form-group">
+									<label for="houseWork" class="form-label">HouseWork</label>
+									<input id="houseWork" class="form-control" name="houseWork" type="text" value="{{.form.HouseWork}}">
+								</div>
+								<input type="hidden" name="new" value="{{.form.New}}">
+								<a href="/goal/listå" class="btn btn-outline btn-default">Back</a>
+								{{if $.form.New}}
+								<input type="submit" class="btn btn-outline btn-primary" value="Register">
+								{{else}}
+								<input type="hidden" name="yearMonth" value="{{.form.YearMonth}}">
+								<input type="submit" class="btn btn-outline btn-primary" value="Update">
+								{{end}}
+							</form>
+						</fieldset>
+					</div>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.row -->
+{{template "footer.html" .}}

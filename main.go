@@ -48,6 +48,7 @@ func main() {
 
 	/* S31_目標一覧画面処理 */
 	router.GET("/goal/list", controller.Users.S31B01)
+	router.GET("/goal/register", controller.Users.S31B02)
 
 	/* S41_タスクテーブル画面処理 */
 	router.GET("/task_table", controller.Users.S41B01)
