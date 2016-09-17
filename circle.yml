@@ -4,8 +4,8 @@ machine:
         - postgresql
         - redis
     environment:
-        PATH: "/usr/local/go/bin:/usr/local/go_workspace/bin:~/.go_workspace/bin:${PATH}"
-        GOPATH: "~/.go_workspace:/usr/local/go_workspace:${HOME}/.go_project"
+        PATH: "/usr/local/go/bin:/usr/local/go_workspace/bin:${HOME}/.go_workspace/bin:${PATH}"
+        GOPATH: "${HOME}/.go_workspace:/usr/local/go_workspace:${HOME}/.go_project"
         REDISCLOUD_URL: redis://:6379
         DATABASE_URL: user=hotatekaoru dbname=mystepdb
 
