@@ -18,6 +18,7 @@ dependencies:
     override:
         - go get -t -d -v ./...
         - go build -v ./...
+        - go run main.go
 
 test:
     override:
