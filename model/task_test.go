@@ -31,7 +31,6 @@ func testConvTaskToS41Form3(t *testing.T) {
 func initSetS41Form1() *Task {
 	task := Task{
 		TypeId:       1,
-		GormModel.Id: 1,
 		Content:      "test",
 		Point:        1.0,
 		UnitId:       1,
@@ -42,7 +41,6 @@ func initSetS41Form1() *Task {
 func initSetS41Form2() *Task {
 	task := Task{
 		TypeId:       2,
-		GormModel.Id: 2,
 		Content:      "test",
 		Point:        1.23,
 		UnitId:       2,
@@ -53,7 +51,6 @@ func initSetS41Form2() *Task {
 func initSetS41Form3() *Task {
 	task := Task{
 		TypeId:       3,
-		GormModel.Id: 3,
 		Content:      "test",
 		Point:        0.1,
 		UnitId:       2,
