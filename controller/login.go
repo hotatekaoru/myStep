@@ -2,9 +2,9 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"myStep/model"
-	"myStep/session"
-	"myStep/validation"
+	"github.com/hotatekaoru/myStep/model"
+	"github.com/hotatekaoru/myStep/session"
+	"github.com/hotatekaoru/myStep/validation"
 	"net/http"
 )
 

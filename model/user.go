@@ -4,9 +4,9 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
-	"myStep/constant"
-	"myStep/database"
-	"myStep/validation"
+	"github.com/hotatekaoru/myStep/constant"
+	"github.com/hotatekaoru/myStep/database"
+	"github.com/hotatekaoru/myStep/validation"
 	"net/http"
 	"time"
 )

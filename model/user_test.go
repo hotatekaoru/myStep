@@ -1,7 +1,7 @@
 package model
 
 import (
-	"myStep/validation"
+	"github.com/hotatekaoru/myStep/validation"
 	"testing"
 )
 

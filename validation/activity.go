@@ -3,7 +3,7 @@ package validation
 import (
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v9"
-	"myStep/constant"
+	"github.com/hotatekaoru/myStep/constant"
 	"strconv"
 	"time"
 )

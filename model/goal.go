@@ -1,13 +1,13 @@
 package model
 
 import (
-	"myStep/validation"
 	"time"
 	"net/http"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v9"
 	"errors"
-	"myStep/constant"
+	"github.com/hotatekaoru/myStep/validation"
+	"github.com/hotatekaoru/myStep/constant"
 	"strconv"
 )
 
@@ -43,17 +43,17 @@ func selectAllGoals(userId int) []Goal {
 	return goal
 }
 
-func isExistGoalByUserAndMonth(userId int, m string) bool {
-	goal := []Goal{}
+func selectGoalByUserAndMonth(userId int, m string) Goal {
+	goal := Goal{}
 	db.Debug().Model(&Goal{}).Where("user_id = ? and month = ?", userId, m).Find(&goal)
-	return len(goal) > 0
+	return goal
 }
 
 func createOrUpdateGoal(input *validation.S32Form, m string) {
-	if isExistGoalByUserAndMonth(input.UserId, m) {
-		updateGoal(input, m)
-	} else {
+	if selectGoalByUserAndMonth(input.UserId, m) == (Goal{}) {
 		createGoal(input, m)
+	} else {
+		updateGoal(input, m)
 	}
 }
 
@@ -139,6 +139,22 @@ func GetS32Form() S32Form {
 		Training:  30,
 		HouseWork: 30,
 		New:       true,
+	}
+
+	return form
+}
+
+func GetS32FormForUpdate(userId int, m string) S32Form {
+	goal := selectGoalByUserAndMonth(userId, m)
+	form := S32Form{
+		Year:      convertStrToInt(m[0:4]),
+		Month:     convertStrToInt(m[4:6]),
+		YearList:  getYearList(),
+		MonthList: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
+		Coding:    goal.Coding,
+		Training:  goal.Training,
+		HouseWork: goal.HouseWork,
+		New:       false,
 	}
 
 	return form

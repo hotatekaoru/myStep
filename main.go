@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"myStep/controller"
-	"myStep/database"
-	"myStep/model"
+	"github.com/hotatekaoru/myStep/controller"
+	"github.com/hotatekaoru/myStep/database"
+	"github.com/hotatekaoru/myStep/model"
 	"net/http"
 	"os"
 )
@@ -49,6 +49,7 @@ func main() {
 	/* S31_目標一覧画面処理 */
 	router.GET("/goal/list", controller.Users.S31B01)
 	router.GET("/goal/register", controller.Users.S31B02)
+	router.GET("/goal/register/month=:month", controller.Users.S31B03)
 
 	/* S32_目標登録画面処理 */
 	router.POST("/goal/register", controller.Users.S32B01)

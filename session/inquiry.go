@@ -4,9 +4,9 @@ import (
 	"encoding/gob"
 	"github.com/gin-gonic/gin"
 	. "gopkg.in/boj/redistore.v1"
-	"myStep/constant"
-	"myStep/database"
-	"myStep/validation"
+	"github.com/hotatekaoru/myStep/constant"
+	"github.com/hotatekaoru/myStep/database"
+	"github.com/hotatekaoru/myStep/validation"
 	"net/http"
 )
 

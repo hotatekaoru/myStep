@@ -4,8 +4,8 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v9"
-	"myStep/constant"
-	"myStep/validation"
+	"github.com/hotatekaoru/myStep/constant"
+	"github.com/hotatekaoru/myStep/validation"
 	"net/http"
 	"time"
 )
