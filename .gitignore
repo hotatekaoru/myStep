@@ -2,6 +2,6 @@
 
 myStep
 
-.env
-
 *.out
+
+.env
