@@ -15,7 +15,7 @@ $(function() {
             a: 50,
             b: 40
         }, {
-            y: 'Aggregate',
+            y: 'Total',
             a: 120,
             b: 10
         }],
