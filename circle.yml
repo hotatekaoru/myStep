@@ -10,8 +10,9 @@ machine:
         DATABASE_URL: user=hotatekaoru dbname=mystepdb
 
 database:
+    post:
+        - psql -U postgres -f $HOME/myStep/database/setup.sql
     override:
-        - create role postgres superuser;
         - createuser -s -d hotatekaoru
         - createdb mystepdb
 
