@@ -7,11 +7,13 @@ machine:
         PATH: "/usr/local/go/bin:/usr/local/go_workspace/bin:${HOME}/.go_workspace/bin:${PATH}"
         GOPATH: "${HOME}/.go_workspace:/usr/local/go_workspace:${HOME}/.go_project"
         REDISCLOUD_URL: redis://:6379
-        DATABASE_URL: user=ubuntu dbname=mystepdb
+        DATABASE_URL: user=hotatekaoru dbname=mystepdb
 
 database:
+    post:
+        - psql -U postgres -f $HOME/mystep/database/setup.sql
     override:
-        - createuser -s -d ubuntu
+        - createuser -s -d hotatekaoru
         - createdb mystepdb
 
 dependencies:
