@@ -22,6 +22,4 @@ dependencies:
 
 test:
     override:
-        - go run main.go
-        timeout: 60
         - go test -v ./model
