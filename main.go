@@ -50,6 +50,9 @@ func main() {
 	router.GET("/goal/list", controller.Users.S31B01)
 	router.GET("/goal/register", controller.Users.S31B02)
 
+	/* S32_目標登録画面処理 */
+	router.POST("/goal/register", controller.Users.S32B01)
+
 	/* S41_タスクテーブル画面処理 */
 	router.GET("/task_table", controller.Users.S41B01)
 	router.GET("/task/register", controller.Users.S41B02)
@@ -67,6 +70,7 @@ func migrate() {
 	db.AutoMigrate(&model.User{})
 	db.AutoMigrate(&model.Task{})
 	db.AutoMigrate(&model.Activity{})
+	db.AutoMigrate(&model.Goal{})
 }
 
 func port() string {

@@ -12,38 +12,68 @@
 						{{template "flash.html" .}}
 						<fieldset>
 							<form action="/goal/register" method="POST">
+								<ul class="list-inline">
+									<li>
+										<div class="form-group">
+											<label for="year" class="form-label">Year</label>
+											<select id="year" class="form-control" name="year">
+												{{$y := .form.Year}}
+												{{range .form.YearList}}
+												<option value="{{.}}" {{if eq $y .}} selected {{end}}>{{.}}</option>
+												{{end}}
+											</select>
+										</div>
+									</li>
+									<li>
+										<div class="form-group">
+											<label for="month" class="form-label">Month</label>
+											<select id="month" class="form-control" name="month">
+												{{$m := .form.Month}}
+												{{range .form.MonthList}}
+												<option value="{{.}}" {{if eq $m .}} selected {{end}}>{{.}}</option>
+												{{end}}
+											</select>
+										</div>
+									</li>
+								</ul>
+								<ul class="list-inline">
+									<li>
+										<div class="form-group">
+											<label for="coding" class="form-label">Coding</label>
+											<div class="input-group">
+												<input id="coding" class="form-control" name="coding" type="text" value="{{.form.Coding}}" style="width:80px;">
+												<span class="input-group-addon">pt</span>
+											</div>
+										</div>
+									</li>
+									<li>
+										<div class="form-group">
+											<label for="training" class="form-label">Training</label>
+											<div class="input-group">
+												<input id="training" class="form-control" name="training" type="text" value="{{.form.Training}}" style="width:80px;">
+												<span class="input-group-addon">pt</span>
+											</div>
+										</div>
+									</li>
+									<li>
+										<div class="form-group">
+											<label for="housework" class="form-label">HouseWork</label>
+											<div class="input-group">
+												<input id="housework" class="form-control" name="housework" type="text" value="{{.form.HouseWork}}" style="width:80px;">
+												<span class="input-group-addon">pt</span>
+											</div>
+										</div>
+									</li>
+								</ul>
+								<input type="hidden" name="new" value="{{.form.New}}">
 								<div class="form-group">
-									<label for="year" class="form-label">Year</label>
-									<select id="year" class="form-control" name="year" style="height:66px;">
-										{{$y := .form.Year}}
-										{{range .form.YearList}}
-										<option value="{{.}}" {{if eq $y .}} selected {{end}}>{{.}}</option>
-										{{end}}
-									</select>
-								</div>
-								<div class="form-group">
-									<label for="month" class="form-label">Month</label>
-									<select id="month" class="form-control" name="month" style="height:66px;">
-										{{$m := .form.Month}}
-										{{range .form.MonthList}}
-										<option value="{{.}}" {{if eq $m .}} selected {{end}}>{{.}}</option>
-										{{end}}
-									</select>
-								</div>
-								<div class="form-group">
-									<label for="coding" class="form-label">Coding</label>
-									<input id="coding" class="form-control" name="coding" type="text" value="{{.form.Coding}}">
-								</div>
-								<div class="form-group">
-									<label for="training" class="form-label">Training</label>
-									<input id="training" class="form-control" name="training" type="text" value="{{.form.Training}}">
-								</div>
-								<div class="form-group">
-									<label for="houseWork" class="form-label">HouseWork</label>
-									<input id="houseWork" class="form-control" name="houseWork" type="text" value="{{.form.HouseWork}}">
+									<label class="checkbox-inline">
+										<input type="checkbox" name="continue" value="1" {{if .form.New}}checked{{end}}>
+										Please check if you want to update all months after inputted month.
+									</label>
 								</div>
 								<input type="hidden" name="new" value="{{.form.New}}">
-								<a href="/goal/listå" class="btn btn-outline btn-default">Back</a>
+								<a href="/goal/list" class="btn btn-outline btn-default">Back</a>
 								{{if $.form.New}}
 								<input type="submit" class="btn btn-outline btn-primary" value="Register">
 								{{else}}
