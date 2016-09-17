@@ -74,7 +74,7 @@ func assertConvert2(t *testing.T, form *S41Form) {
 	if "Training" != form.TypeName {
 		t.Errorf("assertConvert1.TypeName Error. TypeName is " + form.TypeName)
 	}
-	if "1.23pt / 2分" != form.PointStr {
+	if "1.23pt / 10分" != form.PointStr {
 		t.Errorf("assertConvert1.PointStr Error. TypeName is " + form.PointStr)
 	}
 }
@@ -83,7 +83,7 @@ func assertConvert3(t *testing.T, form *S41Form) {
 	if "Housework" != form.TypeName {
 		t.Errorf("assertConvert1.TypeName Error. TypeName is " + form.TypeName)
 	}
-	if "0.1pt / 100分" != form.PointStr {
+	if "0.1pt / 10分" != form.PointStr {
 		t.Errorf("assertConvert1.PointStr Error. TypeName is " + form.PointStr)
 	}
 }
