@@ -11,7 +11,7 @@ machine:
 
 database:
     post:
-        - psql -U postgres -f $HOME/mystep/database/setup.sql
+        - psql -U postgres -f $HOME/myStep/database/setup.sql
     override:
         - createuser -s -d hotatekaoru
         - createdb mystepdb
