@@ -26,6 +26,26 @@ type task struct {
 	Content string
 }
 
+type rate struct {
+	Coding     float64
+	Training   float64
+	HouseWork  float64
+	Total      float64
+}
+
+type allTask struct {
+	Coding     float64
+	Training   float64
+	HouseWork  float64
+	Total      float64
+}
+
+type DashForm struct {
+	Rate    rate
+	Now     allTask
+	Goal    Goal
+}
+
 type S11Form struct {
 	New           bool
 	ActivityId    int
@@ -100,6 +120,17 @@ func selectActivity(inq *s21Inquiry) *[]Activity {
 	return &activity
 }
 
+func selectActivityThisMonth(userId int) *[]Activity {
+	YYYYMM := getYYYYMMStr(time.Now().Year(), int(time.Now().Month()))
+	from, _ := time.Parse("20060102", YYYYMM + "01")
+	end := from.AddDate(0, 1, 0)
+	activity := []Activity{}
+
+	db.Debug().Model(&Activity{}).
+		Where("user_id = ? and (date BETWEEN ? AND ?)", userId, from, end).Find(&activity)
+	return &activity
+}
+
 func CreateActivity(s11 *validation.S11Form, s12 *validation.S12Form) {
 	date, _ := time.Parse(constant.DATE_FORMAT_YYYYMMDD, s11.Date)
 	activity := Activity{
@@ -135,6 +166,50 @@ func DeleteActivityById(id int) {
 }
 
 /* form（外部出力）操作 */
+func GetDashBoardInfo(userId int) *DashForm {
+	form := DashForm{}
+	acts := selectActivityThisMonth(userId)
+	nowPoint := calcActivityByTask(acts)
+	goal := selectGoalByUserAndMonth(userId, getYYYYMMStr(time.Now().Year(), int(time.Now().Month())))
+	form.Goal = goal
+	form.Now = *nowPoint
+	form.Rate = calcRate(nowPoint, &goal)
+	return &form
+}
+
+func calcActivityByTask(activity *[]Activity) *allTask {
+	result := allTask{}
+	for _, v := range *activity {
+		switch v.TypeId {
+		case 1:
+			result.Coding += v.Point
+		case 2:
+			result.Training += v.Point
+		case 3:
+			result.HouseWork += v.Point
+		}
+	}
+	result.Total = result.Coding + result.Training + result.HouseWork
+	return &result
+}
+
+func calcRate(nowPoint *allTask, goal *Goal) rate {
+	result := rate {
+		Coding:    nowPoint.Coding / convertIntToFloat64(goal.Coding),
+		Training:  nowPoint.Training / convertIntToFloat64(goal.Training),
+		HouseWork: nowPoint.HouseWork /convertIntToFloat64(goal.HouseWork),
+		Total:     nowPoint.Total / convertIntToFloat64(goal.Total),
+	}
+	return result
+}
+
+func convertIntToFloat64(i int) float64 {
+	if i == 0 {
+		return 1.0
+	}
+	return float64(i)
+}
+
 func GetS11FormRegister(typeId, userId int) *S11Form {
 	form := S11Form{
 		New:    true,

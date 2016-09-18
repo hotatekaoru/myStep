@@ -49,7 +49,10 @@ func (u *users) S02B01(c *gin.Context) {
 		return
 	}
 
-	c.HTML(http.StatusOK, "index.html", gin.H{})
+	form := model.GetDashBoardInfo(user.Id)
+	c.HTML(http.StatusOK, "index.html", gin.H{
+		"form": form,
+	})
 }
 
 /* ログアウト処理 */
