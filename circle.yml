@@ -16,7 +16,7 @@ database:
 
 dependencies:
     override:
-        - go get -t -d -v ./...
+        - go get main.go
         - go build -v ./...
 
 test:
