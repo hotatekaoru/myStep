@@ -13,7 +13,7 @@
 		</div>
 		<!-- /.row -->
 		<div class="row">
-			<div class="col-lg-4 col-md-6">
+			<div class="col-lg-3 col-md-6">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
 						<div class="row">
@@ -34,16 +34,14 @@
 							</div>
 						</div>
 					</div>
-					<a href="#">
+					<a href="/activity/register/typeId=1">
 						<div class="panel-footer">
-							<a href="/activity/register/typeId=1">
-								<span class="pull-left">Register Acitvity</span>
-								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-								<div class="clearfix"></div>
-							</a>
+							<span class="pull-left">Register Acitvity</span>
+							<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+							<div class="clearfix"></div>
 						</div>
 					</a>
-					<a href="#">
+					<a href="/activity/inquiry/typeId=1">
 						<div class="panel-footer">
 							<span class="pull-left">View Details</span>
 							<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -52,7 +50,7 @@
 					</a>
 				</div>
 			</div>
-			<div class="col-lg-4 col-md-6">
+			<div class="col-lg-3 col-md-6">
 				<div class="panel panel-green">
 					<div class="panel-heading">
 						<div class="row">
@@ -73,16 +71,14 @@
 							</div>
 						</div>
 					</div>
-					<a href="#">
+					<a href="/activity/register/typeId=2">
 						<div class="panel-footer">
-							<a href="/activity/register/typeId=2">
-								<span class="pull-left">Register Acitvity</span>
-								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-								<div class="clearfix"></div>
-							</a>
+							<span class="pull-left">Register Acitvity</span>
+							<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+							<div class="clearfix"></div>
 						</div>
 					</a>
-					<a href="#">
+					<a href="/activity/inquiry/typeId=2">
 						<div class="panel-footer">
 							<span class="pull-left">View Details</span>
 							<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -91,7 +87,7 @@
 					</a>
 				</div>
 			</div>
-			<div class="col-lg-4 col-md-6">
+			<div class="col-lg-3 col-md-6">
 				<div class="panel panel-yellow">
 					<div class="panel-heading">
 						<div class="row">
@@ -112,16 +108,14 @@
 							</div>
 						</div>
 					</div>
-					<a href="#">
+					<a href="/activity/register/typeId=3">
 						<div class="panel-footer">
-							<a href="/activity/register/typeId=3">
-								<span class="pull-left">Register Acitvity</span>
-								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-								<div class="clearfix"></div>
-							</a>
+							<span class="pull-left">Register Acitvity</span>
+							<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+							<div class="clearfix"></div>
 						</div>
 					</a>
-					<a href="#">
+					<a href="/activity/inquiry/typeId=3">
 						<div class="panel-footer">
 							<span class="pull-left">View Details</span>
 							<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -147,6 +141,78 @@
 				<!-- /.panel -->
 			</div>
 			<!-- /.col-lg-8 -->
+			<div class="col-lg-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<i class="fa fa-bar-chart-o fa-fw"></i> Graph
+					</div>
+					<!-- /.panel-heading -->
+					<div class="panel-body">
+						<ul class="graph-menu">
+							<li>
+								<a href="#">
+									<div>
+										<p>
+											<strong>Coding</strong>
+											<span class="text-muted" style="margin-left:30px;">{{.form.Rate.Coding}}% Complete</span>
+										</p>
+										<div class="progress progress-striped active">
+											<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{.form.Rate.Coding}}" aria-valuemin="0" aria-valuemax="100" style="width: {{.form.Rate.Coding}}%">
+											</div>
+										</div>
+									</div>
+								</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a href="#">
+									<div>
+										<p>
+											<strong>Training</strong>
+											<span class="text-muted" style="margin-left:30px;">{{.form.Rate.Training}}% Complete</span>
+										</p>
+										<div class="progress progress-striped active">
+											<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{.form.Rate.Training}}" aria-valuemin="0" aria-valuemax="100" style="width: {{.form.Rate.Training}}%">
+											</div>
+										</div>
+									</div>
+								</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a href="#">
+									<div>
+										<p>
+											<strong>HouseWork</strong>
+											<span class="text-muted" style="margin-left:30px;">{{.form.Rate.HouseWork}}% Complete</span>
+										</p>
+										<div class="progress progress-striped active">
+											<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{.form.Rate.HouseWork}}" aria-valuemin="0" aria-valuemax="100" style="width: {{.form.Rate.HouseWork}}%">
+											</div>
+										</div>
+									</div>
+								</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a href="#">
+									<div>
+										<p>
+											<strong>All Tasks</strong>
+											<span class="text-muted" style="margin-left:30px;">{{.form.Rate.Total}}% Complete</span>
+										</p>
+										<div class="progress progress-striped active">
+											<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{.form.Rate.Total}}" aria-valuemin="0" aria-valuemax="100" style="width: {{.form.Rate.Total}}%">
+											</div>
+										</div>
+									</div>
+								</a>
+							</li>
+						</ul>
+						<!-- /.dropdown-tasks -->
+					</div>
+				</div>
+			</div>
 			<div class="col-lg-4">
 				<div class="panel panel-default">
 					<div class="panel-heading">

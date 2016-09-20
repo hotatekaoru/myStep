@@ -26,21 +26,23 @@ func (u *users) S01B01(c *gin.Context) {
 
 /* ログイン処理 */
 func (u *users) S01B02(c *gin.Context) {
-	form, err := validation.ValidateUser(c)
+	input, err := validation.ValidateUser(c)
 	if err != nil {
 		return
 	}
 
-	userID, err := model.Auth(form)
+	userID, err := model.Auth(input)
 	if err != nil {
-		model.AuthErr(form.UserName, c)
+		model.AuthErr(input.UserName, c)
 		return
 	}
 
 	session.SaveUserID(c, userID)
 
-	c.HTML(http.StatusOK, "index.html", gin.H{})
-}
+	form := model.GetDashBoardInfo(userID)
+	c.HTML(http.StatusOK, "index.html", gin.H{
+		"form": form,
+	})}
 
 /* Dashboard表示処理 */
 func (u *users) S02B01(c *gin.Context) {

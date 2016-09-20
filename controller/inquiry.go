@@ -66,3 +66,21 @@ func (u *users) S21B04(c *gin.Context) {
 		"info": constant.MSG_COMPLETE_ACTIVITY_DELETE,
 	})
 }
+
+/* アクティビティ一覧照会画面表示処理（タイプ指定） */
+func (u *users) S21B05(c *gin.Context) {
+	user := session.IsLogin(c)
+	if (model.User{}) == user {
+		return
+	}
+
+	input := validation.ValidateS21TypeId(c, user.Id)
+	form := model.ConvertInputFormToInquiry(input)
+
+	session.SaveS21Form(c, *input)
+	form = model.GetS21Search(form)
+
+	c.HTML(http.StatusOK, "activity_table.html", gin.H{
+		"form": form,
+	})
+}

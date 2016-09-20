@@ -23,7 +23,7 @@ type S11Form struct {
 type S12Form struct {
 	New         bool    `form:"new"`
 	WorkingTime int     `form:"workingTime"`
-	Point       float64 `form:"point" validate:"required,lte=10"`
+	Point       float64 `form:"point" validate:"required,lte=100"`
 	Comment     string  `form:"comment" validate:"lte=300"`
 }
 

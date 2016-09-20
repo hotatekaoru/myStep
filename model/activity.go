@@ -27,10 +27,10 @@ type task struct {
 }
 
 type rate struct {
-	Coding     float64
-	Training   float64
-	HouseWork  float64
-	Total      float64
+	Coding     int
+	Training   int
+	HouseWork  int
+	Total      int
 }
 
 type allTask struct {
@@ -195,21 +195,13 @@ func calcActivityByTask(activity *[]Activity) *allTask {
 
 func calcRate(nowPoint *allTask, goal *Goal) rate {
 	result := rate {
-		Coding:    nowPoint.Coding / convertIntToFloat64(goal.Coding),
-		Training:  nowPoint.Training / convertIntToFloat64(goal.Training),
-		HouseWork: nowPoint.HouseWork /convertIntToFloat64(goal.HouseWork),
-		Total:     nowPoint.Total / convertIntToFloat64(goal.Total),
+		Coding:    int(100 * nowPoint.Coding) / goal.Coding,
+		Training:  int(100 * nowPoint.Training) / goal.Training,
+		HouseWork: int(100 * nowPoint.HouseWork) / goal.HouseWork,
+		Total:     int(100 * nowPoint.Total) / goal.Total,
 	}
 	return result
 }
-
-func convertIntToFloat64(i int) float64 {
-	if i == 0 {
-		return 1.0
-	}
-	return float64(i)
-}
-
 func GetS11FormRegister(typeId, userId int) *S11Form {
 	form := S11Form{
 		New:    true,

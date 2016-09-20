@@ -69,7 +69,10 @@ func (u *users) S12B01(c *gin.Context) {
 	}
 	session.DeinitActivity(c)
 
-	c.HTML(http.StatusOK, "index.html", gin.H{})
+	form := model.GetDashBoardInfo(user.Id)
+	c.HTML(http.StatusOK, "index.html", gin.H{
+		"form": form,
+	})
 }
 
 /* アクティビティ登録画面1表示（戻る）処理 */

@@ -45,6 +45,7 @@ func main() {
 	router.POST("/activity/inquiry", controller.Users.S21B02)
 	router.GET("/activity/register/activityId=:activityId", controller.Users.S21B03)
 	router.GET("/activity/delete/activityId=:activityId", controller.Users.S21B04)
+	router.GET("/activity/inquiry/typeId=:typeId", controller.Users.S21B05)
 
 	/* S31_目標一覧画面処理 */
 	router.GET("/goal/list", controller.Users.S31B01)

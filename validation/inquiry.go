@@ -5,6 +5,7 @@ import (
 	"gopkg.in/go-playground/validator.v9"
 	"github.com/hotatekaoru/myStep/constant"
 	"time"
+	"strconv"
 )
 
 type S21Form struct {
@@ -43,3 +44,21 @@ func S21FormValidation(sl validator.StructLevel) {
 		}
 	}
 }
+
+func ValidateS21TypeId(c *gin.Context, userId int) *S21Form {
+	obj := &S21Form{}
+	obj.UserCheck = setS21UserId(userId)
+	obj.TypeCheck = setS21TypeId(c)
+
+	return obj
+}
+
+func setS21UserId(userId int) []int {
+	return []int{userId}
+}
+
+func setS21TypeId(c *gin.Context) []int {
+	inputTypeId, _ := strconv.Atoi(c.Param("typeId"))
+	return []int{inputTypeId}
+}
+
