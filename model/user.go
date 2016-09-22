@@ -3,10 +3,10 @@ package model
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
-	"golang.org/x/crypto/bcrypt"
 	"github.com/hotatekaoru/myStep/constant"
 	"github.com/hotatekaoru/myStep/database"
 	"github.com/hotatekaoru/myStep/validation"
+	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"time"
 )

@@ -42,7 +42,8 @@ func (u *users) S01B02(c *gin.Context) {
 	form := model.GetDashBoardInfo(userID)
 	c.HTML(http.StatusOK, "index.html", gin.H{
 		"form": form,
-	})}
+	})
+}
 
 /* Dashboard表示処理 */
 func (u *users) S02B01(c *gin.Context) {

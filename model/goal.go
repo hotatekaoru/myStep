@@ -1,14 +1,14 @@
 package model
 
 import (
-	"time"
-	"net/http"
-	"github.com/gin-gonic/gin"
-	"gopkg.in/go-playground/validator.v9"
 	"errors"
-	"github.com/hotatekaoru/myStep/validation"
+	"github.com/gin-gonic/gin"
 	"github.com/hotatekaoru/myStep/constant"
+	"github.com/hotatekaoru/myStep/validation"
+	"gopkg.in/go-playground/validator.v9"
+	"net/http"
 	"strconv"
+	"time"
 )
 
 type Goal struct {
@@ -97,12 +97,12 @@ func getMonthListForUpdate(input *validation.S32Form) *[]string {
 	}
 	monthList := []string{}
 
-	for y := time.Now().Year(); y <= time.Now().Year() + 2; y++ {
-		if (year > y) {
+	for y := time.Now().Year(); y <= time.Now().Year()+2; y++ {
+		if year > y {
 			continue
 		}
 		for m := 1; m <= 12; m++ {
-			if (month > m) {
+			if month > m {
 				continue
 			}
 			month = 1
@@ -114,7 +114,7 @@ func getMonthListForUpdate(input *validation.S32Form) *[]string {
 
 func getYYYYMMStr(y, m int) string {
 	s := strconv.Itoa(m)
-	if len(s) == 1{
+	if len(s) == 1 {
 		s = "0" + s
 	}
 	return strconv.Itoa(y) + s
@@ -167,14 +167,14 @@ func getYearList() []int {
 
 func ReturnS32InputErr(input *validation.S32Form, errs error, c *gin.Context) {
 	form := S32Form{
-		New:        input.New,
-		Year:       convertStrToInt(input.Year),
-		Month:      convertStrToInt(input.Month),
-		YearList:   getYearList(),
-		MonthList:  []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
-		Coding:     input.Coding,
-		Training:   input.Training,
-		HouseWork:  input.HouseWork,
+		New:       input.New,
+		Year:      convertStrToInt(input.Year),
+		Month:     convertStrToInt(input.Month),
+		YearList:  getYearList(),
+		MonthList: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
+		Coding:    input.Coding,
+		Training:  input.Training,
+		HouseWork: input.HouseWork,
 	}
 
 	var err []error
@@ -187,7 +187,7 @@ func ReturnS32InputErr(input *validation.S32Form, errs error, c *gin.Context) {
 	})
 }
 
-func convertStrToInt(s string)int {
+func convertStrToInt(s string) int {
 	i, _ := strconv.Atoi(s)
 	return i
 }

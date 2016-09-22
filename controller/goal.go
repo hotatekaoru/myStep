@@ -4,8 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hotatekaoru/myStep/model"
 	"github.com/hotatekaoru/myStep/session"
-	"net/http"
 	"github.com/hotatekaoru/myStep/validation"
+	"net/http"
 )
 
 /* 目標一覧画面表示処理 */

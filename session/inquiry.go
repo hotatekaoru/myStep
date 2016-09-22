@@ -3,10 +3,10 @@ package session
 import (
 	"encoding/gob"
 	"github.com/gin-gonic/gin"
-	. "gopkg.in/boj/redistore.v1"
 	"github.com/hotatekaoru/myStep/constant"
 	"github.com/hotatekaoru/myStep/database"
 	"github.com/hotatekaoru/myStep/validation"
+	. "gopkg.in/boj/redistore.v1"
 	"net/http"
 )
 

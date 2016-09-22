@@ -3,9 +3,9 @@ package model
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
-	"gopkg.in/go-playground/validator.v9"
 	"github.com/hotatekaoru/myStep/constant"
 	"github.com/hotatekaoru/myStep/validation"
+	"gopkg.in/go-playground/validator.v9"
 	"net/http"
 	"time"
 )
@@ -27,23 +27,23 @@ type task struct {
 }
 
 type rate struct {
-	Coding     int
-	Training   int
-	HouseWork  int
-	Total      int
+	Coding    int
+	Training  int
+	HouseWork int
+	Total     int
 }
 
 type allTask struct {
-	Coding     float64
-	Training   float64
-	HouseWork  float64
-	Total      float64
+	Coding    float64
+	Training  float64
+	HouseWork float64
+	Total     float64
 }
 
 type DashForm struct {
-	Rate    rate
-	Now     allTask
-	Goal    Goal
+	Rate rate
+	Now  allTask
+	Goal Goal
 }
 
 type S11Form struct {
@@ -122,7 +122,7 @@ func selectActivity(inq *s21Inquiry) *[]Activity {
 
 func selectActivityThisMonth(userId int) *[]Activity {
 	YYYYMM := getYYYYMMStr(time.Now().Year(), int(time.Now().Month()))
-	from, _ := time.Parse("20060102", YYYYMM + "01")
+	from, _ := time.Parse("20060102", YYYYMM+"01")
 	end := from.AddDate(0, 1, 0)
 	activity := []Activity{}
 
@@ -194,11 +194,11 @@ func calcActivityByTask(activity *[]Activity) *allTask {
 }
 
 func calcRate(nowPoint *allTask, goal *Goal) rate {
-	result := rate {
-		Coding:    int(100 * nowPoint.Coding) / goal.Coding,
-		Training:  int(100 * nowPoint.Training) / goal.Training,
-		HouseWork: int(100 * nowPoint.HouseWork) / goal.HouseWork,
-		Total:     int(100 * nowPoint.Total) / goal.Total,
+	result := rate{
+		Coding:    int(100*nowPoint.Coding) / goal.Coding,
+		Training:  int(100*nowPoint.Training) / goal.Training,
+		HouseWork: int(100*nowPoint.HouseWork) / goal.HouseWork,
+		Total:     int(100*nowPoint.Total) / goal.Total,
 	}
 	return result
 }

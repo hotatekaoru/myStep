@@ -3,9 +3,9 @@ package model
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
-	"gopkg.in/go-playground/validator.v9"
 	"github.com/hotatekaoru/myStep/constant"
 	"github.com/hotatekaoru/myStep/validation"
+	"gopkg.in/go-playground/validator.v9"
 	"net/http"
 	"strconv"
 )

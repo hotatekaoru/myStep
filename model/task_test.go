@@ -30,30 +30,30 @@ func testConvTaskToS41Form3(t *testing.T) {
 
 func initSetS41Form1() *Task {
 	task := Task{
-		TypeId:       1,
-		Content:      "test",
-		Point:        1.0,
-		UnitId:       1,
+		TypeId:  1,
+		Content: "test",
+		Point:   1.0,
+		UnitId:  1,
 	}
 	return &task
 }
 
 func initSetS41Form2() *Task {
 	task := Task{
-		TypeId:       2,
-		Content:      "test",
-		Point:        1.23,
-		UnitId:       2,
+		TypeId:  2,
+		Content: "test",
+		Point:   1.23,
+		UnitId:  2,
 	}
 	return &task
 }
 
 func initSetS41Form3() *Task {
 	task := Task{
-		TypeId:       3,
-		Content:      "test",
-		Point:        0.1,
-		UnitId:       2,
+		TypeId:  3,
+		Content: "test",
+		Point:   0.1,
+		UnitId:  2,
 	}
 	return &task
 }

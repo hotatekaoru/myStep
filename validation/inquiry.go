@@ -2,10 +2,10 @@ package validation
 
 import (
 	"github.com/gin-gonic/gin"
-	"gopkg.in/go-playground/validator.v9"
 	"github.com/hotatekaoru/myStep/constant"
-	"time"
+	"gopkg.in/go-playground/validator.v9"
 	"strconv"
+	"time"
 )
 
 type S21Form struct {
@@ -61,4 +61,3 @@ func setS21TypeId(c *gin.Context) []int {
 	inputTypeId, _ := strconv.Atoi(c.Param("typeId"))
 	return []int{inputTypeId}
 }
-
