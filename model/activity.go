@@ -194,7 +194,11 @@ func calcActivityByTask(activity *[]Activity) *allTask {
 }
 
 func calcRate(nowPoint *allTask, goal *Goal) rate {
-	result := rate{
+	var result rate
+	if *goal == (Goal{}) {
+		return result
+	}
+	result = rate{
 		Coding:    int(100*nowPoint.Coding) / goal.Coding,
 		Training:  int(100*nowPoint.Training) / goal.Training,
 		HouseWork: int(100*nowPoint.HouseWork) / goal.HouseWork,
@@ -202,6 +206,7 @@ func calcRate(nowPoint *allTask, goal *Goal) rate {
 	}
 	return result
 }
+
 func GetS11FormRegister(typeId, userId int) *S11Form {
 	form := S11Form{
 		New:    true,
