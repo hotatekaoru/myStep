@@ -41,9 +41,11 @@ type allTask struct {
 }
 
 type DashForm struct {
-	Rate rate
-	Now  allTask
-	Goal Goal
+	Rate  rate
+	Now   allTask
+	Goal  Goal
+	Kaoru allTask
+	Yuri  allTask
 }
 
 type S11Form struct {
@@ -168,7 +170,13 @@ func DeleteActivityById(id int) {
 /* form（外部出力）操作 */
 func GetDashBoardInfo(userId int) *DashForm {
 	form := DashForm{}
-	acts := selectActivityThisMonth(userId)
+
+	acts := selectActivityThisMonth(1)
+	form.Kaoru = *(calcActivityByTask(acts))
+	acts = selectActivityThisMonth(2)
+	form.Yuri = *(calcActivityByTask(acts))
+
+	acts = selectActivityThisMonth(userId)
 	nowPoint := calcActivityByTask(acts)
 	goal := selectGoalByUserAndMonth(userId, getYYYYMMStr(time.Now().Year(), int(time.Now().Month())))
 	form.Goal = goal
@@ -189,8 +197,13 @@ func calcActivityByTask(activity *[]Activity) *allTask {
 			result.HouseWork += v.Point
 		}
 	}
-	result.Total = result.Coding + result.Training + result.HouseWork
+	result.Total = trimFloat(result.Coding + result.Training + result.HouseWork)
 	return &result
+}
+
+func trimFloat(f float64) float64 {
+	i := int(f * 10)
+	return float64(i) / 10
 }
 
 func calcRate(nowPoint *allTask, goal *Goal) rate {

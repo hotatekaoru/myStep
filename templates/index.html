@@ -3,7 +3,6 @@
 <!-- Morris Charts JavaScript -->
 <script src="/assets/bower_components/raphael/raphael-min.js"></script>
 <script src="/assets/bower_components/morrisjs/morris.min.js"></script>
-<script src="/assets/bower_components/morrisjs/morris-data.js"></script>
 	<div id="page-wrapper">
 		<div class="row">
 			<div class="col-lg-12">
@@ -235,4 +234,34 @@
 			<!-- /.col-lg-4 -->
 		</div>
 		<!-- /.row -->
+		<script>
+			$(function() {
+				Morris.Bar({
+					element: 'morris-bar-chart',
+					data: [{
+						y: 'Coding',
+						a: {{.form.Kaoru.Coding}},
+						b: {{.form.Yuri.Coding}}
+					}, {
+						y: 'Training',
+						a: {{.form.Kaoru.Training}},
+						b: {{.form.Yuri.Training}}
+					}, {
+						y: 'HouseWork',
+						a: {{.form.Kaoru.HouseWork}},
+						b: {{.form.Yuri.HouseWork}}
+					}, {
+						y: 'Total',
+						a: {{.form.Kaoru.Total}},
+						b: {{.form.Yuri.Total}}
+					}],
+					xkey: 'y',
+					ykeys: ['a', 'b'],
+					labels: ['Kaoru', 'Yuri'],
+					hideHover: 'auto',
+					resize: true,
+					barColors: ['rgb(31,92,183)','rgb(91,184,121)'],
+				});
+			});
+		</script>
 {{template "footer.html" .}}
