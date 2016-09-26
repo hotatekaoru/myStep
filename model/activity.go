@@ -140,7 +140,7 @@ func CreateActivity(s11 *validation.S11Form, s12 *validation.S12Form) {
 		Date:        date,
 		TypeId:      s11.TypeId,
 		TaskId:      s11.TaskId,
-		Point:       s12.Point,
+		Point:       trimFloat(s12.Point),
 		WorkingTime: s12.WorkingTime,
 		Comment:     s12.Comment,
 	}
@@ -155,7 +155,7 @@ func UpdateActivity(s11 *validation.S11Form, s12 *validation.S12Form) {
 		Date:        date,
 		TypeId:      s11.TypeId,
 		TaskId:      s11.TaskId,
-		Point:       s12.Point,
+		Point:       trimFloat(s12.Point),
 		WorkingTime: s12.WorkingTime,
 		Comment:     s12.Comment,
 	}
@@ -197,6 +197,9 @@ func calcActivityByTask(activity *[]Activity) *allTask {
 			result.HouseWork += v.Point
 		}
 	}
+	result.Coding = trimFloat(result.Coding)
+	result.Training = trimFloat(result.Training)
+	result.HouseWork = trimFloat(result.HouseWork)
 	result.Total = trimFloat(result.Coding + result.Training + result.HouseWork)
 	return &result
 }
