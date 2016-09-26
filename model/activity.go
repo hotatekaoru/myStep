@@ -8,6 +8,7 @@ import (
 	"gopkg.in/go-playground/validator.v9"
 	"net/http"
 	"time"
+	"fmt"
 )
 
 type Activity struct {
@@ -201,6 +202,7 @@ func calcActivityByTask(activity *[]Activity) *allTask {
 	result.Training = trimFloat(result.Training)
 	result.HouseWork = trimFloat(result.HouseWork)
 	result.Total = trimFloat(result.Coding + result.Training + result.HouseWork)
+	fmt.Println(result.Coding)
 	return &result
 }
 
