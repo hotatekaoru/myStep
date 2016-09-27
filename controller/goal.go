@@ -9,7 +9,7 @@ import (
 )
 
 /* 目標一覧画面表示処理 */
-func (u *users) S31B01(c *gin.Context) {
+func S31B01(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
@@ -23,7 +23,7 @@ func (u *users) S31B01(c *gin.Context) {
 }
 
 /* 目標登録画面表示処理 */
-func (u *users) S31B02(c *gin.Context) {
+func S31B02(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
@@ -37,7 +37,7 @@ func (u *users) S31B02(c *gin.Context) {
 }
 
 /* 目標登録画面表示処理 */
-func (u *users) S31B03(c *gin.Context) {
+func S31B03(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
@@ -51,7 +51,7 @@ func (u *users) S31B03(c *gin.Context) {
 }
 
 /* 目標登録処理 */
-func (u *users) S32B01(c *gin.Context) {
+func S32B01(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return

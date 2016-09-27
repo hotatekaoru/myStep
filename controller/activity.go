@@ -9,7 +9,7 @@ import (
 )
 
 /* アクティビティ登録画面1表示処理 */
-func (u *users) S11B01(c *gin.Context) {
+func S11B01(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
@@ -26,7 +26,7 @@ func (u *users) S11B01(c *gin.Context) {
 }
 
 /* アクティビティ登録画面2表示処理 */
-func (u *users) S11B02(c *gin.Context) {
+func S11B02(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
@@ -49,7 +49,7 @@ func (u *users) S11B02(c *gin.Context) {
 }
 
 /* アクティビティ登録処理 */
-func (u *users) S12B01(c *gin.Context) {
+func S12B01(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
@@ -76,7 +76,7 @@ func (u *users) S12B01(c *gin.Context) {
 }
 
 /* アクティビティ登録画面1表示（戻る）処理 */
-func (u *users) S12B02(c *gin.Context) {
+func S12B02(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
@@ -91,7 +91,7 @@ func (u *users) S12B02(c *gin.Context) {
 }
 
 /* アクティビティ登録画面1表示処理（更新） */
-func (u *users) S21B03(c *gin.Context) {
+func S21B03(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return

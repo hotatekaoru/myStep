@@ -10,7 +10,7 @@ import (
 )
 
 /* アクティビティ一覧照会画面表示処理 */
-func (u *users) S21B01(c *gin.Context) {
+func S21B01(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
@@ -24,7 +24,7 @@ func (u *users) S21B01(c *gin.Context) {
 }
 
 /* アクティビティ一覧照会画面検索処理 */
-func (u *users) S21B02(c *gin.Context) {
+func S21B02(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
@@ -46,7 +46,7 @@ func (u *users) S21B02(c *gin.Context) {
 }
 
 /* アクティビティ削除処理 */
-func (u *users) S21B04(c *gin.Context) {
+func S21B04(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
@@ -68,7 +68,7 @@ func (u *users) S21B04(c *gin.Context) {
 }
 
 /* アクティビティ一覧照会画面表示処理（タイプ指定） */
-func (u *users) S21B05(c *gin.Context) {
+func S21B05(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return

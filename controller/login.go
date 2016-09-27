@@ -8,12 +8,8 @@ import (
 	"net/http"
 )
 
-var Users users = users{}
-
-type users struct{}
-
 /* ログイン画面表示処理 */
-func (u *users) S01B01(c *gin.Context) {
+func S01B01(c *gin.Context) {
 	user := session.GetSessionUser(c.Request)
 	if (model.User{}) != user {
 		session.Destroy(c)
@@ -25,8 +21,8 @@ func (u *users) S01B01(c *gin.Context) {
 }
 
 /* ログイン処理 */
-func (u *users) S01B02(c *gin.Context) {
-	input, err := validation.ValidateUser(c)
+func S01B02(c *gin.Context) {
+	input, err := validation.ValidateS01Form(c)
 	if err != nil {
 		return
 	}
@@ -46,7 +42,7 @@ func (u *users) S01B02(c *gin.Context) {
 }
 
 /* Dashboard表示処理 */
-func (u *users) S02B01(c *gin.Context) {
+func S02B01(c *gin.Context) {
 	user := session.IsLogin(c)
 	if (model.User{}) == user {
 		return
@@ -58,9 +54,21 @@ func (u *users) S02B01(c *gin.Context) {
 	})
 }
 
-/* ログアウト処理 */
-func (u *users) S02B02(c *gin.Context) {
-	c.HTML(http.StatusOK, "login.html", gin.H{
-		"userName": "",
+func J01B01(c *gin.Context) {
+	input, err := validation.ValidateS01FormFromJSON(c)
+	if err != nil {
+		return
+	}
+
+	userID, err := model.Auth(input)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"user": userID,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"user": userID,
 	})
 }
