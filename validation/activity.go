@@ -64,6 +64,16 @@ func S11FormValidation(sl validator.StructLevel) {
 		sl.ReportError(form, "Date", "date", form.Date, "")
 		return
 	}
+
+	if form.TypeId == 0 {
+		sl.ReportError(form, "Type", "type", "", "")
+		return
+	}
+
+	if form.TaskId1 == 0 && form.TaskId2 == 0 && form.TaskId3 == 0 {
+		sl.ReportError(form, "Content", "content", "", "")
+		return
+	}
 }
 
 func SetTaskId(input *S11Form) {
