@@ -64,6 +64,12 @@ func main() {
 	/* S42_タスクテーブル画面処理 */
 	router.POST("/task/register", controller.S42B01)
 
+	/* S51_体重登録画面処理 */
+	router.GET("/weight/register", controller.S51B01)
+
+	/* S52_体重一覧画面処理 */
+	router.GET("/weight/inquiry", controller.S52B01)
+
 	/* J01_ユーザー確認処理 */
 	router.POST("/loginJSON", controller.J01B01)
 

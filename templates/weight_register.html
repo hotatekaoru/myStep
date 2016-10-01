@@ -1,0 +1,46 @@
+{{template "header.html" .}}
+{{template "navi-bar.html" .}}
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Weight Register <small>Input Kaoru's weight data.</small></h1>
+				<div class="col-lg-6 col-md-8 col-sm-10">
+					{{template "flash.html" .}}
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<i class="fa fa-edit fa-fw"></i> Input Form
+						</div>
+						<!-- /.panel-heading -->
+						<div class="panel-body">
+							<fieldset>
+								<form action="/weight/confirm" name="activity" method="POST">
+									<div class="form-group">
+										<label for="date" class="form-label">Date</label>
+										<input type="text" id="date" class="form-control" name="date" value="{{.form.Date}}" style="width:160px;"/>
+									</div>
+									<a href="/index" class="btn btn-outline btn-default">Back</a>
+									<input type="hidden" name="new" value="{{.form.New}}">
+									{{if not .form.New}}
+									<input type="hidden" name="activityId" value="{{.form.ActivityId}}">
+									{{end}}
+									<input type="submit" class="btn btn-outline btn-primary" value="Next">
+								</form>
+							</fieldset>
+						</div>
+						<!-- /.panel-body -->
+					</div>
+					<!-- /.panel -->
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.row -->
+		<script type="text/javascript">
+			$(function () {
+				$('#date').datetimepicker({
+					format: 'YYYY/MM/DD'
+				});
+			});
+		</script>
+{{template "footer.html" .}}
