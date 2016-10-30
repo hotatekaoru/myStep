@@ -57,18 +57,24 @@ func S02B01(c *gin.Context) {
 func J01B01(c *gin.Context) {
 	input, err := validation.ValidateS01FormFromJSON(c)
 	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"login": false,
+			"id": 0,
+		})
 		return
 	}
 
 	userID, err := model.Auth(input)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"user": userID,
+			"login": false,
+			"id": 0,
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"user": userID,
+		"login": true,
+		"id": userID,
 	})
 }
