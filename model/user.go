@@ -9,7 +9,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"time"
-	"fmt"
 )
 
 // Gormのデフォルトでは、IDをunit型にしているが、
