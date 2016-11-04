@@ -55,6 +55,11 @@ func S02B01(c *gin.Context) {
 }
 
 func J01B01(c *gin.Context) {
+
+	println("Accept JSON Parameter to Login")
+	println("userName -> " + c.PostForm("userName"))
+	println("password -> " + c.PostForm("password"))
+
 	input, err := validation.ValidateS01FormFromJSON(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{

@@ -31,14 +31,10 @@ func ValidateS01Form(c *gin.Context) (*S01Form, error) {
 }
 
 func ValidateS01FormFromJSON(c *gin.Context) (*S01Form, error) {
-	validate = validator.New()
 
-	//dec := json.NewDecoder(c)
-	//dec.Decode(c)
+	validate = validator.New()
 	obj := &S01Form{}
 	err := c.BindJSON(obj)
-
-	//err += validate.Struct(obj)
 
 	return obj, err
 }

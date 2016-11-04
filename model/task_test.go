@@ -4,10 +4,18 @@ import (
 	"testing"
 )
 
+func TestSelectAllTask(t *testing.T) {
+	initTaskTable()
+}
+
 func TestConvOneTaskToS41(t *testing.T) {
 	testConvTaskToS41Form1(t)
 	testConvTaskToS41Form2(t)
 	testConvTaskToS41Form3(t)
+}
+
+func initTaskTable() {
+
 }
 
 func testConvTaskToS41Form1(t *testing.T) {

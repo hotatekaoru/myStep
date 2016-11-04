@@ -71,7 +71,7 @@ func main() {
 	router.GET("/weight/inquiry", controller.S52B01)
 
 	/* J01_ユーザー確認処理 */
-	router.POST("/JSON/login", controller.J01B01)
+	router.POST("/api/v1/login", controller.J01B01)
 
 	http.ListenAndServe(":"+port(), router)
 }
