@@ -8,6 +8,10 @@ import (
 	"net/http"
 )
 
+type error interface {
+	Error() string
+}
+
 /* ログイン画面表示処理 */
 func S01B01(c *gin.Context) {
 	user := session.GetSessionUser(c.Request)
@@ -63,7 +67,7 @@ func J01B01(c *gin.Context) {
 	input, err := validation.ValidateS01FormFromJSON(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"login": false,
+			"err": err.Error(),
 			"id": 0,
 		})
 		return
@@ -72,14 +76,14 @@ func J01B01(c *gin.Context) {
 	userID, err := model.Auth(input)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"login": false,
+			"err": err.Error(),
 			"id": 0,
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"login": true,
+		"err": "",
 		"id": userID,
 	})
 }
