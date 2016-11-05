@@ -64,7 +64,7 @@ func J01B01(c *gin.Context) {
 	println("userName -> " + c.PostForm("userName"))
 	println("password -> " + c.PostForm("password"))
 
-	input, err := validation.ValidateS01FormFromJSON(c)
+	input, err := validation.ValidateS01FormV1(c)
 	if err != nil {
 		println("Validate err -> " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{

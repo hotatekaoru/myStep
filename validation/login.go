@@ -30,11 +30,11 @@ func ValidateS01Form(c *gin.Context) (*S01Form, error) {
 	return obj, err
 }
 
-func ValidateS01FormFromJSON(c *gin.Context) (*S01Form, error) {
+func ValidateS01FormV1(c *gin.Context) (*S01Form, error) {
 
 	validate = validator.New()
 	obj := &S01Form{}
-	err := c.BindJSON(obj)
+	err := c.Bind(obj)
 
 	return obj, err
 }
