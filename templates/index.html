@@ -263,16 +263,21 @@
 			<div class="col-lg-4">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<i class="fa fa-bell fa-fw"></i> Announce
+						<i class="fa fa-bell fa-fw"></i> Total Points
 					</div>
 					<!-- /.panel-heading -->
 					<div class="panel-body">
 						<div class="list-group">
-							<a href="#" class="list-group-item">
-								<i class="fa fa-calendar fa-fw"></i> New Activity
-									<span class="pull-right text-muted small"><em>4 Activities</em>
-									</span>
-							</a>
+							<div class="list-group-item">
+								Kaoru
+								<span class="pull-right text-muted small"><em>{{index .form.Total 0}} Pts</em>
+								</span>
+							</div>
+							<div class="list-group-item">
+								Yuri
+								<span class="pull-right text-muted small"><em>{{index .form.Total 1}} Pts</em>
+								</span>
+							</div>
 						</div>
 					</div>
 					<!-- /.panel-body -->

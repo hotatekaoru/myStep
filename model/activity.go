@@ -46,6 +46,7 @@ type DashForm struct {
 	Goal  Goal
 	Kaoru allTask
 	Yuri  allTask
+	Total []int
 }
 
 type S11Form struct {
@@ -133,6 +134,23 @@ func selectActivityThisMonth(userId int) *[]Activity {
 	return &activity
 }
 
+func selectAllPts() []int {
+
+	var list []int
+	var i int
+	from, _ := time.Parse("20060102", "20161201")
+	rows, _ := db.Debug().Model(&Activity{}).
+		Select("sum(point) as total").
+		Group("user_id").
+		Where("(date BETWEEN ? AND ?)", from, time.Now()).Rows()
+	for rows.Next() {
+		rows.Scan(&i)
+		list = append(list, i)
+	}
+
+	return list
+}
+
 func CreateActivity(s11 *validation.S11Form, s12 *validation.S12Form) {
 	date, _ := time.Parse(constant.DATE_FORMAT_YYYYMMDD, s11.Date)
 	activity := Activity{
@@ -182,6 +200,9 @@ func GetDashBoardInfo(userId int) *DashForm {
 	form.Goal = goal
 	form.Now = *nowPoint
 	form.Rate = calcRate(nowPoint, &goal)
+
+	form.Total = selectAllPts()
+
 	return &form
 }
 
